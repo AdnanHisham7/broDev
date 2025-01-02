@@ -6,9 +6,9 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left Section */}
-      <div className="w-5/12 bg-gray-900 flex flex-col justify-center items-center px-10">
+      <div className="hidden lg:flex lg:w-5/12 bg-blue-50 flex-col justify-center items-center px-10">
         {/* Welcome Header */}
-        <h1 className="text-3xl font-bold text-white mb-4">Heyy, Welcome Back!</h1>
+        <h1 className="text-3xl font-bold  text-black mb-4">Heyy, Welcome Back!</h1>
         <p className="text-gray-400 text-sm text-center">
           Your Perfect Platform for Collaboration
         </p>

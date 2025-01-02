@@ -32,88 +32,89 @@ function App() {
           element={
             <>
               <div className="flex justify-center py-80">
-              <div className="grid grid-cols-2 gap-4">
-                <Button
-                  variant="primary"
-                  label="Buttons"
-                  onClick={() => navigate("/buttons")}
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    variant="primary"
+                    label="Buttons"
+                    onClick={() => navigate("/buttons")}
                   ></Button>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    variant="outlined"
+                    label="Sign Up Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/signUp")}
+                  ></Button>
+                  <Button
+                    variant="outlined"
+                    label="CheckMailOtp Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/checkMailOtp")}
+                  ></Button>
+                  <Button
+                    variant="outlined"
+                    label="Login Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/login")}
+                  ></Button>
+                  <Button
+                    variant="outlined"
+                    label="ForgotPassword Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/forgotPassword")}
+                  ></Button>
+                  <Button
+                    variant="outlined"
+                    label="ForgotPasswordOtp Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/forgotPasswordOtp")}
+                  ></Button>
+                  <Button
+                    variant="outlined"
+                    label="ProfileStep1 Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/profileStep1")}
+                  ></Button>
+                  <Button
+                    variant="outlined"
+                    label="ProfileStep2 Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/profileStep2")}
+                  ></Button>
+                  <Button
+                    variant="outlined"
+                    label="ProfileStep3 Form"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/profileStep3")}
+                  ></Button>
+                  <Button
+                    variant="outlined-success"
+                    label="Login Page"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/loginPage")}
+                  ></Button>
+                  
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Button
-                  variant="outlined"
-                  label="Sign Up Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/signUp")}
-                  ></Button>
-                <Button
-                  variant="outlined"
-                  label="CheckMailOtp Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/checkMailOtp")}
-                ></Button>
-                <Button
-                  variant="outlined"
-                  label="Login Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/login")}
-                  ></Button>
-                <Button
-                  variant="outlined"
-                  label="ForgotPassword Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/forgotPassword")}
-                ></Button>
-                <Button
-                  variant="outlined"
-                  label="ForgotPasswordOtp Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/forgotPasswordOtp")}
-                  ></Button>
-                <Button
-                  variant="outlined"
-                  label="ProfileStep1 Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/profileStep1")}
-                  ></Button>
-                <Button
-                  variant="outlined"
-                  label="ProfileStep2 Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/profileStep2")}
-                  ></Button>
-                <Button
-                  variant="outlined"
-                  label="ProfileStep3 Form"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/profileStep3")}
-                ></Button>
-                <Button
-                  variant="outlined-success"
-                  label="Login Page"
-                  iconLeft={
-                    <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
-                  }
-                  onClick={() => navigate("/loginPage")}
-                  ></Button>
-              </div>
-            </div>
             </>
           }
         />
@@ -121,13 +122,19 @@ function App() {
         <Route path="/buttons" element={<ButtonShowcase />} />
         <Route path="/signUp" element={<SignupPage></SignupPage>} />
         <Route path="/checkMailOtp" element={<CheckMailOtp></CheckMailOtp>} />
-        <Route path="/forgotPasswoRd"element={<ForgotPassword></ForgotPassword>}/>
-        <Route path="/login"element={<LoginPage></LoginPage>}/>
-        <Route path="/forgotPasswordOtp"element={<ForgotPasswordOtp></ForgotPasswordOtp>}/>
-        <Route path="/profileStep1"element={<ProfileStep1></ProfileStep1>}/>
-        <Route path="/profileStep2"element={<ProfileStep2></ProfileStep2>}/>
-        <Route path="/profileStep3"element={<ProfileStep3></ProfileStep3>}/>
-        <Route path="/loginPage"element={<LoginPage></LoginPage>}/>
+        <Route
+          path="/forgotPasswoRd"
+          element={<ForgotPassword></ForgotPassword>}
+        />
+        <Route path="/login" element={<LoginPage></LoginPage>} />
+        <Route
+          path="/forgotPasswordOtp"
+          element={<ForgotPasswordOtp></ForgotPasswordOtp>}
+        />
+        <Route path="/profileStep1" element={<ProfileStep1></ProfileStep1>} />
+        <Route path="/profileStep2" element={<ProfileStep2></ProfileStep2>} />
+        <Route path="/profileStep3" element={<ProfileStep3></ProfileStep3>} />
+        <Route path="/loginPage" element={<LoginPage></LoginPage>} />
       </Routes>
     </>
   );

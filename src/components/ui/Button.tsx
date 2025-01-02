@@ -4,7 +4,7 @@ interface ButtonProps {
   label?: string; // Optional for icon-only buttons
   onClick: () => void;
   type?: 'button' | 'submit' | 'reset';
-  variant?: 'primary' | 'outlined' | 'success' | 'danger' | 'outlined-success' | 'outlined-danger' | 'secondary';
+  variant?: 'primary' | 'outlined' | 'success' | 'danger' | 'outlined-success' | 'outlined-danger' | 'sticky';
   iconLeft?: JSX.Element; // Optional icon on the left
   iconRight?: JSX.Element; // Optional icon on the right
   disabled?: boolean;
@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   // Variant styles
   const variantStyles: Record<string, string> = {
     primary: 'bg-white text-black hover:bg-gray-100',
-    seconday:'bg-white text-red hover:bg-red-100',
+    sticky:'bg-gray-800 text-gray-400 hover:text-gray-300',
     outlined: 'bg-transparent border border-gray-200 text-gray-200 hover:bg-gray-800',
     success: 'bg-customGreen text-white hover:bg-green-700',
     danger: 'bg-customRed text-white hover:bg-red-800',

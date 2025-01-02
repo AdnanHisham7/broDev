@@ -6,7 +6,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left Section */}
-      <div className="hidden lg:flex lg:w-5/12 bg-blue-50 flex-col justify-center items-center px-10">
+      <div className="hidden lg:flex lg:w-6/12 bg-blue-50 flex-col justify-center items-center px-10">
         {/* Welcome Header */}
         <h1 className="text-3xl font-bold  text-black mb-4">Heyy, Welcome Back!</h1>
         <p className="text-gray-400 text-sm text-center">
@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
       </div>
 
       {/* Right Section */}
-      <div className="w-10/12 flex items-center justify-center p-8 bg-">
+      <div className="w-full flex items-center justify-center p-8">
         <LoginForm />
       </div>
     </div>

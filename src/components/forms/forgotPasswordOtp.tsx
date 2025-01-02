@@ -15,7 +15,7 @@ const ForgotPasswordOtp: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md lg:min-w-96 mx-auto bg-customBg text-white p-6 rounded-lg">
+    <div className="max-w-md lg:min-w-96 mx-auto bg-customBg text-center text-white p-6 rounded-lg">
       <img
         src={sendMailIcon}
         alt="Mail Icon"

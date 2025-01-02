@@ -25,7 +25,7 @@ const ProfileStep3: React.FC = () => {
       <div className="flex justify-end mb-4">
         <Button
           label="Skip"
-          variant="secondary"
+          variant="sticky"
           className="text-xs text-gray-400 hover:text-white"
           onClick={() => console.log("Skip Step")}
         />

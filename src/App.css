@@ -2,7 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/*  */
+@media (max-width: 768px) {
+  .sidebar-text {
+    display: none !important;
+  }
 
+  .w-64 {
+    width: 4rem !important; /* Adjust the width for compact view if needed */
+  }
+}
+
+
+/* .homepage {
+    display: flex;
+    flex-direction: column;
+  }
+   */
+  /* .main-content {
+    display: flex;
+  } */
+  
+  /* .content-area {
+    flex: 1;
+    padding: 20px;
+    color: white;
+  } */
+  
+  /* .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  } */
+  
+  /* .tab-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1f1f1f;
+    color: white;
+    cursor: pointer;
+  } */
+/*   
+  .tab-button.active {
+    background-color: #4caf50;
+  } */
+  
+  /* .posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  } */
+
+  
 /* #root {
   max-width: 1280px;
   margin: 0 auto;

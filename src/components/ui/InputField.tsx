@@ -5,7 +5,9 @@ interface InputFieldProps {
   label?: string;
   placeholder?: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   disabled?: boolean;
   className?: string;
   subtext?: string;
@@ -94,7 +96,9 @@ const InputField: React.FC<InputFieldProps> = ({
     return (
       <div className={`relative w-full ${className}`}>
         {/* Label */}
-        <label className="absolute left-3 transform -translate-y-1/2 transition-all text-sm text-gray-500 bg-customBg">{label}</label>
+        <label className="absolute left-3 transform -translate-y-1/2 transition-all text-sm text-gray-500 bg-customBg">
+          {label}
+        </label>
 
         {/* Select Dropdown */}
         <select
@@ -102,20 +106,19 @@ const InputField: React.FC<InputFieldProps> = ({
           onChange={onChange}
           disabled={disabled}
           className="w-full ps-3 pe-3 pt-4 pb-3 bg-transparent border border-gray-800 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-gray-500"
-          
         >
           {options.map((option, index) => (
-          <option
-            key={index}
-            value={option} // Placeholder has an empty value
-            disabled={index === 0} // Disable the placeholder option
-            className={`${
-              index === 0 ? "text-gray-400" : "text-white"
-            } bg-gray-900`}
-          >
-            {option}
-          </option>
-        ))}
+            <option
+              key={index}
+              value={option} // Placeholder has an empty value
+              disabled={index === 0} // Disable the placeholder option
+              className={`${
+                index === 0 ? "text-gray-400" : "text-white"
+              } bg-gray-900`}
+            >
+              {option}
+            </option>
+          ))}
         </select>
 
         {/* Subtext */}
@@ -129,50 +132,58 @@ const InputField: React.FC<InputFieldProps> = ({
   if (type === "date") {
     return (
       <div className={`relative w-full ${className}`}>
-      {/* Label */}
-      <label
-        className={`absolute left-3 transform -translate-y-1/2 transition-all text-gray-500 top-0 text-sm bg-customBg"
+        {/* Label */}
+        <label
+          className={`absolute left-3 transform -translate-y-1/2 transition-all text-gray-500 top-0 text-sm bg-customBg"
         }`}
-      >
-        {label}
-      </label>
+        >
+          {label}
+        </label>
 
-      {/* Input Field */}
-      <input
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        disabled={disabled}
-        className="w-full ps-3 pe-3 pt-5 pb-2 bg-transparent border border-gray-800 rounded-md text-white placeholder-transparent focus:outline-none focus:ring-1 focus:ring-gray-500"
-      />
+        {/* Input Field */}
+        <input
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          disabled={disabled}
+          className="w-full ps-3 pe-3 pt-5 pb-2 bg-transparent border border-gray-800 rounded-md text-white placeholder-transparent focus:outline-none focus:ring-1 focus:ring-gray-500"
+        />
 
-      {/* Subtext */}
-      {subtext && (
-        <p className={`mt-1 text-sm ${getSubtextClass()}`}>{subtext}</p>
-      )}
-    </div>
+        {/* Subtext */}
+        {subtext && (
+          <p className={`mt-1 text-sm ${getSubtextClass()}`}>{subtext}</p>
+        )}
+      </div>
     );
   }
+
+  const inputId = `input-${label?.replace(/\s+/g, "-").toLowerCase()}`; // Generate a unique ID for the input
 
   // Default input field for non-OTP and non-select types
   return (
     <div className={`relative w-full ${className}`}>
       {/* Label */}
-      <label
-        className={`absolute left-3 transform -translate-y-1/2 transition-all text-gray-500 ${
-          isFocused || value
-            ? "top-0 text-sm text-gray-300 bg-customBg"
-            : "top-1/2 text-base"
-        }`}
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={inputId}
+          className={`absolute left-3 transform -translate-y-1/2 transition-all text-gray-500 ${
+            isFocused || value
+              ? "top-0 text-sm text-gray-300 bg-customBg"
+              : subtext
+              ? "top-1/3 text-base"
+              : "top-1/2 text-base"
+          }`}
+        >
+          {label}
+        </label>
+      )}
 
       {/* Input Field */}
       <input
+        id={inputId}
         type={type}
         value={value}
         placeholder={placeholder}

@@ -9,6 +9,9 @@ import CheckMailOtp from "./components/forms/CheckMailOtp";
 import ForgotPassword from "./components/forms/ForgotPassword";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Button from "./components/ui/Button";
+import postImage from "./components/images/welcome_Icon.png";
+import HomePage from "./components/pages/HomePage";
+import UploadPostForm from "./components/forms/UploadPostForm1";
 
 import "./App.css";
 import LoginForm from "./components/forms/LoginForm";
@@ -18,6 +21,10 @@ import ProfileStep2 from "./components/forms/ProfileStep2";
 import ProfileStep3 from "./components/forms/ProfileStep3";
 import LoginPage from "./components/pages/Login";
 import SignupPage from "./components/pages/Signup";
+import Post from "./components/ui/Post";
+import SideBar from "./components/ui/SideBar";
+import NavBar from "./components/ui/NavBar";
+
 function App() {
   const navigate = useNavigate();
   // <Route path="/button-showcase" element={<ButtonShowcase />} />
@@ -112,7 +119,38 @@ function App() {
                     }
                     onClick={() => navigate("/loginPage")}
                   ></Button>
-                  
+                  <Button
+                    variant="outlined-success"
+                    label="Sidebar"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/sidebar")}
+                  ></Button>
+                  <Button
+                    variant="outlined-success"
+                    label="Navbar"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/navbar")}
+                  ></Button>
+                  <Button
+                    variant="success"
+                    label="Home"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/home")}
+                  ></Button>
+                  <Button
+                    variant="success"
+                    label="uploadPostForm"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/uploadPostForm")}
+                  ></Button>
                 </div>
               </div>
             </>
@@ -122,9 +160,36 @@ function App() {
         <Route path="/buttons" element={<ButtonShowcase />} />
         <Route path="/signUp" element={<SignupPage></SignupPage>} />
         <Route path="/checkMailOtp" element={<CheckMailOtp></CheckMailOtp>} />
+        <Route path="/sidebar" element={<SideBar></SideBar>} />
+        <Route path="/home" element={<HomePage></HomePage>} />
+        <Route path="/navbar" element={<NavBar></NavBar>} />
+        {/* <Route path="/uploadPostForm" element={<UploadPostForm></UploadPostForm>} /> */}
         <Route
-          path="/forgotPasswoRd"
-          element={<ForgotPassword></ForgotPassword>}
+          path="/forgotPassword"
+          element={
+            <>
+              <Post
+                username="user_name"
+                domain="Mern Stack Developer"
+                tags={{
+                  tagExample: "7F0303",
+                  "Linkedln": "16037F",
+                }}
+                images={[
+                  "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+                  "https://th.bing.com/th/id/R.2c57158421e70052a5cd37e63505472a?rik=rZ1a9SDg8etiJQ&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-20.jpg&ehk=efYckqX6isJQS4qYHcoS%2bSi9PByYf0bj3Xg9h%2fwwTyc%3d&risl=&pid=ImgRaw&r=0",
+                  "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+
+                  // "https://th.bing.com/th/id/R.b5f1b9ff9e51326b98712b3987a9d317?rik=UtS26DUJIKhqMA&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2f7%2f0%2f5%2f674229.jpg&ehk=%2bHsg3VpxgbB6MmSqfC%2bcyUHdOnQjTgZ3UbdiGWLoalw%3d&risl=&pid=ImgRaw&r=0",
+                  // "https://wallpapercave.com/wp/wp2890892.jpg",
+                  // "https://wallpaperaccess.com/full/3304781.jpg"
+                ]}
+                likes={100}
+                comments={2100}
+                description="🚀 Explore the latest in technology, innovation, and trends shapin the future. From groundbreaking advancements to practical applications, our insights keep you informed Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed"
+              />
+            </>
+          }
         />
         <Route path="/login" element={<LoginPage></LoginPage>} />
         <Route

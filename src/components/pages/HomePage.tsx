@@ -4,6 +4,9 @@ import SideBar from "../ui/SideBar";
 import Post from "../ui/Post";
 import Button from "../ui/Button";
 
+import CommentsPad from "../ui/CommentsPad";
+import { commentsData } from "../../data";
+
 const HomePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Posts"); // State to handle active tab
 

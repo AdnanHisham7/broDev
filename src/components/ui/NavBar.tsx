@@ -118,7 +118,7 @@ const NavBar: React.FC = () => {
           <button className="text-gray-400 hover:text-white">
             <FontAwesomeIcon icon={faCog} />
           </button>
-          <div className="w-8 h-8 rounded-full bg-gray-500"></div>
+          <a href="/profile" className="w-8 h-8 rounded-full bg-gray-500"></a>
         </div>
       </nav>
 

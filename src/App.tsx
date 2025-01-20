@@ -24,10 +24,75 @@ import SignupPage from "./components/pages/Signup";
 import Post from "./components/ui/Post";
 import SideBar from "./components/ui/SideBar";
 import NavBar from "./components/ui/NavBar";
+import UserProfileCard from "./components/ui/UserProfileCard";
+import OwnPost from "./components/ui/OwnPost";
+import ProfilePage from "./components/pages/ProfilePage";
+import CommentsPad from "./components/ui/CommentsPad";
+import { commentsData } from "./data";
 
 function App() {
   const navigate = useNavigate();
   // <Route path="/button-showcase" element={<ButtonShowcase />} />
+  const userProfileData = {
+    username: "John Doe",
+    domain: "Web Development",
+    tags: {
+      tagExample: "ff5722",
+      debugger: "3b82f6",
+    },
+    userProfile: "",
+    batch: "2025",
+    githubLink: "https://github.com/johndoe",
+    linkedlnLink: "https://linkedin.com/in/johndoe",
+    email: "john.doe@example.com",
+    bio: "Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.",
+    rank: 6,
+    leetcodeUsername: "ItsSadhik",
+    skillsArray: ["JavaSc", "React", "Node.js", "TypeScript"],
+  };
+
+  const postsData = [
+    {
+      images: [
+        "https://th.bing.com/th/id/OIP.U8JB9b-gG9zf8MH3r6idbgHaE8?rs=1&pid=ImgDetMain",
+      ],
+      likes: 120,
+      comments: 30,
+      description: "This is my latest project showcase!",
+    },
+    {
+      images: [
+        "https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/01/the-bad-batch-tech.jpg",
+      ],
+      likes: 80,
+      comments: 15,
+      description: "Exploring new technologies every day!",
+    },
+    {
+      images: [
+        "https://th.bing.com/th/id/OIP.KwCCuz0alNOKhgf_4shI7AHaFF?w=640&h=440&rs=1&pid=ImgDetMain",
+      ],
+      likes: 80,
+      comments: 15,
+      description: "Exploring new technologies every day!",
+    },
+    {
+      images: [
+        "https://www.shutterstock.com/image-photo/white-cyborg-robotic-hand-pointing-260nw-2431875319.jpg",
+      ],
+      likes: 80,
+      comments: 15,
+      description: "Exploring new technologies every day!",
+    },
+    {
+      images: ["https://switchcraft.site/images/1731413632854.webp"],
+      likes: 80,
+      comments: 15,
+      description: "Exploring new technologies every day!",
+    },
+  ];
+
+  
 
   const [count, setCount] = useState(0);
 
@@ -151,6 +216,40 @@ function App() {
                     }
                     onClick={() => navigate("/uploadPostForm")}
                   ></Button>
+                  <Button
+                    variant="outlined-success"
+                    label="UserProfileCard"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/userProfileCard")}
+                  ></Button>
+                  <Button
+                    variant="outlined-success"
+                    label="OwnPost"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/ownPost")}
+                  ></Button>
+
+                  <Button
+                    variant="success"
+                    label="Profile page"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/profile")}
+                  ></Button>
+
+                  <Button
+                    variant="outlined-danger"
+                    label="Comments Pad"
+                    iconLeft={
+                      <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
+                    }
+                    onClick={() => navigate("/commentsPad")}
+                  ></Button>
                 </div>
               </div>
             </>
@@ -162,19 +261,73 @@ function App() {
         <Route path="/checkMailOtp" element={<CheckMailOtp></CheckMailOtp>} />
         <Route path="/sidebar" element={<SideBar></SideBar>} />
         <Route path="/home" element={<HomePage></HomePage>} />
+        <Route
+          path="/commentsPad"
+          element={
+            <>
+              <div className="min-h-screen bg-customBg p-4">
+                <h1 className="text-2xl font-bold mb-6">Comments </h1>
+                <CommentsPad comments={commentsData} />
+              </div>
+            </>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProfilePage
+              userProfileData={userProfileData}
+              ownPosts={postsData}
+            ></ProfilePage>
+          }
+        />
         <Route path="/navbar" element={<NavBar></NavBar>} />
+
+        <Route
+          path="/userProfileCard"
+          element={
+            <>
+              <UserProfileCard
+                username="Sadhikul Vahad"
+                domain="MERN Stack"
+                rank={2}
+                tags={{
+                  tagExample: "ff5722", // Orange
+                  debugger: "3b82f6", // Blue
+                }}
+                userProfile="https://th.bing.com/th/id/OIP.rSrx3v6uQT3_WRR_eDAhHAAAAA?rs=1&pid=ImgDetMain" // Replace with the user's profile image URL
+                batch="BCK 198"
+                githubLink="https://github.com/yourprofile"
+                linkedlnLink="https://linkedin.com/in/yourprofile"
+                email="your-email@example.com"
+                bio="Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed.Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed.Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed.Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed.Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed.Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed.Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed.Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed."
+                leetcodeUsername="ItsSadhik"
+                skillsArray={[
+                  "Software Skills",
+                  "Python Django",
+                  "Websockets",
+                  "Software Skills",
+                ]}
+              />
+            </>
+          }
+        />
+
         {/* <Route path="/uploadPostForm" element={<UploadPostForm></UploadPostForm>} /> */}
         <Route
           path="/forgotPassword"
           element={
             <>
               <Post
+                userProfile="https://th.bing.com/th/id/OIP.rSrx3v6uQT3_WRR_eDAhHAAAAA?rs=1&pid=ImgDetMain"
                 username="user_name"
                 domain="Mern Stack Developer"
                 tags={{
                   tagExample: "7F0303",
-                  "Linkedln": "16037F",
+                  Linkedln: "16037F",
                 }}
+                isLiked={true}
                 images={[
                   "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
                   "https://th.bing.com/th/id/R.2c57158421e70052a5cd37e63505472a?rik=rZ1a9SDg8etiJQ&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-20.jpg&ehk=efYckqX6isJQS4qYHcoS%2bSi9PByYf0bj3Xg9h%2fwwTyc%3d&risl=&pid=ImgRaw&r=0",
@@ -183,6 +336,24 @@ function App() {
                   // "https://th.bing.com/th/id/R.b5f1b9ff9e51326b98712b3987a9d317?rik=UtS26DUJIKhqMA&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2f7%2f0%2f5%2f674229.jpg&ehk=%2bHsg3VpxgbB6MmSqfC%2bcyUHdOnQjTgZ3UbdiGWLoalw%3d&risl=&pid=ImgRaw&r=0",
                   // "https://wallpapercave.com/wp/wp2890892.jpg",
                   // "https://wallpaperaccess.com/full/3304781.jpg"
+                ]}
+                likes={100}
+                comments={2100}
+                description="🚀 Explore the latest in technology, innovation, and trends shapin the future. From groundbreaking advancements to practical applications, our insights keep you informed Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed"
+              />
+            </>
+          }
+        />
+
+        <Route
+          path="/ownPost"
+          element={
+            <>
+              <OwnPost
+                images={[
+                  "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+                  "https://th.bing.com/th/id/R.2c57158421e70052a5cd37e63505472a?rik=rZ1a9SDg8etiJQ&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-20.jpg&ehk=efYckqX6isJQS4qYHcoS%2bSi9PByYf0bj3Xg9h%2fwwTyc%3d&risl=&pid=ImgRaw&r=0",
+                  "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
                 ]}
                 likes={100}
                 comments={2100}

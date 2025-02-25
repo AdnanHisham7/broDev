@@ -14,7 +14,8 @@ import {
 
 const SideBar: React.FC = () => {
   return (
-    <div className="w-64 pb-16 h-screen bg-customBg border-r border-gray-800 text-white flex flex-col justify-between sticky top-0">
+    <div className="w-64 h- bg-customBg border-r border-gray-800 text-white flex flex-col justify-between sticky top-0">
+
       {/* Top Section */}
       <div className="flex flex-col">
         <h2 className="text-sm font-bold ml-4 pt-4 sidebar-text">General</h2>

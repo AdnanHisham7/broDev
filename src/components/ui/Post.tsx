@@ -102,7 +102,7 @@ const Post: React.FC<PostProps> = ({
   });
 
   return (
-    <div className="max-w-lg mx-auto rounded-lg border border-gray-800 px-5 shadow-lg overflow-hidden">
+    <div className="max-w-lg mx-10 rounded-lg border border-gray-800 px-5 shadow-lg overflow-hidden">
       {/* Top Section: Profile and Tags */}
       <div className="flex items-center justify-between py-4">
         {/* Profile Section */}

@@ -14,7 +14,7 @@ export default {
       },
       colors: {
         customBg:{
-          DEFAULT:'#0E1217',
+          DEFAULT:'#000000',
         },
         customGreen: {
           DEFAULT: '#209039', // Base green color
@@ -23,8 +23,14 @@ export default {
           DEFAULT: '#902020', // Base green color
         },
         customGray:{
-          DEFAULT:'#1C1F26'
-        }
+          DEFAULT:'#171717'
+        },
+        midGray:{
+          DEFAULT:'#282828'
+        },
+        lightGray:{
+          DEFAULT:'#313131'
+        },
       },
     },
   },

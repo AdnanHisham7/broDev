@@ -47,6 +47,8 @@ function App() {
     email: "john.doe@example.com",
     bio: "Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.",
     rank: 6,
+    postCount:10,
+    followersCount:256,
     leetcodeUsername: "ItsSadhik",
     skillsArray: ["JavaSc", "React", "Node.js", "TypeScript"],
   };
@@ -54,10 +56,11 @@ function App() {
   const postsData = [
     {
       images: [
-        "https://th.bing.com/th/id/OIP.U8JB9b-gG9zf8MH3r6idbgHaE8?rs=1&pid=ImgDetMain",
+        "https://th.bing.com/th/id/OIP.U8JB9b-gG9zf8MH3r6idbgHaE8?rs=1&pid=ImgDetMain","https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/01/the-bad-batch-tech.jpg","https://th.bing.com/th/id/OIP.U8JB9b-gG9zf8MH3r6idbgHaE8?rs=1&pid=ImgDetMain"
       ],
       likes: 120,
-      comments: 30,
+      commentsCount: 30,
+      comments: [],
       description: "This is my latest project showcase!",
     },
     {
@@ -65,7 +68,8 @@ function App() {
         "https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/01/the-bad-batch-tech.jpg",
       ],
       likes: 80,
-      comments: 15,
+      commentsCount: 15,
+      comments:commentsData,
       description: "Exploring new technologies every day!",
     },
     {
@@ -73,21 +77,25 @@ function App() {
         "https://th.bing.com/th/id/OIP.KwCCuz0alNOKhgf_4shI7AHaFF?w=640&h=440&rs=1&pid=ImgDetMain",
       ],
       likes: 80,
-      comments: 15,
+      commentsCount: 15,
+      comments: [],
       description: "Exploring new technologies every day!",
     },
     {
       images: [
-        "https://www.shutterstock.com/image-photo/white-cyborg-robotic-hand-pointing-260nw-2431875319.jpg",
+        "https://th.bing.com/th/id/OIP.NKv4YX7bul61AY8Ye_YYlwHaNK?rs=1&pid=ImgDetMain",
       ],
       likes: 80,
-      comments: 15,
+      commentsCount: 15,
+      comments:commentsData,
+
       description: "Exploring new technologies every day!",
     },
     {
-      images: ["https://switchcraft.site/images/1731413632854.webp"],
+      images: [""],
       likes: 80,
-      comments: 15,
+      commentsCount: 15,
+      comments:commentsData,
       description: "Exploring new technologies every day!",
     },
   ];
@@ -356,7 +364,7 @@ function App() {
                   "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
                 ]}
                 likes={100}
-                comments={2100}
+                commentsCount={2100}
                 description="🚀 Explore the latest in technology, innovation, and trends shapin the future. From groundbreaking advancements to practical applications, our insights keep you informed Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed"
               />
             </>

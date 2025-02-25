@@ -15,6 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@radix-ui/react-switch": "^1.1.2",
     "cropperjs": "^1.6.2",
+    "framer-motion": "^12.4.2",
     "headlessui": "^0.0.0",
     "react": "^18.2.0",
     "react-cropper": "^2.3.3",

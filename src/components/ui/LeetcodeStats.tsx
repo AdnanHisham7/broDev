@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import SpotlightCard from "./SpotlightCard";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface LeetCodeStatsProps {
@@ -8,7 +8,7 @@ interface LeetCodeStatsProps {
 }
 
 interface Stats {
-    totalQuestions:number
+  totalQuestions: number;
   totalSolved: number;
   easySolved: number;
   mediumSolved: number;
@@ -17,7 +17,7 @@ interface Stats {
 
 const LeetCodeStats: React.FC<LeetCodeStatsProps> = ({ leetcodeUsername }) => {
   const [stats, setStats] = useState<Stats>({
-    totalQuestions:0,
+    totalQuestions: 0,
     totalSolved: 0,
     easySolved: 0,
     mediumSolved: 0,
@@ -49,109 +49,116 @@ const LeetCodeStats: React.FC<LeetCodeStatsProps> = ({ leetcodeUsername }) => {
   const hardPercent = (stats.hardSolved / stats.totalSolved) * 100 || 0;
 
   return (
-    <div className="flex-1 bg-[#14170E] p-6 rounded-xl shadow-md border border-gray-800 text-white">
-  <div className="flex items-center justify-center">
-    <div className="rounded-full border-2 border-gray-500 w-28 h-28 shadow-md flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-4xl font-bold">
-          {stats.totalSolved}
-          <span className="text-xs font-extralight">/{stats.totalQuestions}</span>
+    <SpotlightCard
+      className="custom-spotlight-card"
+      spotlightColor="rgba(255, 223, 0, 0.2)"
+    >
+      <div className="flex-1 bg-[#14170E] p-6 rounded-xl shadow-md border border-gray-800 text-white">
+        <div className="flex items-center justify-center">
+          <div className="rounded-full border-2 border-gray-500 w-28 h-28 shadow-md flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-4xl font-bold">
+                {stats.totalSolved}
+                <span className="text-xs font-extralight">
+                  /{stats.totalQuestions}
+                </span>
+              </div>
+              <p className="text-xs text-gray-400">
+                <FontAwesomeIcon className="text-customGreen" icon={faCheck} />{" "}
+                solved
+              </p>
+            </div>
+          </div>
         </div>
-        <p className="text-xs text-gray-400">
-          <FontAwesomeIcon className="text-customGreen" icon={faCheck} /> solved
-        </p>
-      </div>
-    </div>
-  </div>
 
-  <div className="mt-4 space-y-2">
-    <div className="flex items-center justify-between">
-      <span
-        className="text-green-400 text-xs"
-        style={{
-          width: "3.4rem",
-          textAlign: "left",
-          display: "inline-block",
-        }}
-      >
-        Easy
-      </span>
-      <div className="flex-1 h-3 mx-2 bg-gray-700 rounded">
-        <div
-          className="h-full bg-green-400 rounded"
-          style={{ width: `${easyPercent}%` }}
-        ></div>
+        <div className="mt-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <span
+              className="text-green-400 text-xs"
+              style={{
+                width: "3.4rem",
+                textAlign: "left",
+                display: "inline-block",
+              }}
+            >
+              Easy
+            </span>
+            <div className="flex-1 h-3 mx-2 bg-gray-700 rounded">
+              <div
+                className="h-full bg-green-400 rounded"
+                style={{ width: `${easyPercent}%` }}
+              ></div>
+            </div>
+            <span
+              className="text-gray-400 text-xs"
+              style={{
+                width: "2.1rem",
+                textAlign: "right",
+                display: "inline-block",
+              }}
+            >
+              {stats.easySolved}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span
+              className="text-yellow-400 text-xs"
+              style={{
+                width: "3.4rem",
+                textAlign: "left",
+                display: "inline-block",
+              }}
+            >
+              Medium
+            </span>
+            <div className="flex-1 h-3 mx-2 bg-gray-700 rounded">
+              <div
+                className="h-full bg-yellow-400 rounded"
+                style={{ width: `${mediumPercent}%` }}
+              ></div>
+            </div>
+            <span
+              className="text-gray-400 text-xs"
+              style={{
+                width: "2.1rem",
+                textAlign: "right",
+                display: "inline-block",
+              }}
+            >
+              {stats.mediumSolved}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span
+              className="text-red-400 text-xs"
+              style={{
+                width: "3.4rem",
+                textAlign: "left",
+                display: "inline-block",
+              }}
+            >
+              Hard
+            </span>
+            <div className="flex-1 h-3 mx-2 bg-gray-700 rounded">
+              <div
+                className="h-full bg-red-400 rounded"
+                style={{ width: `${hardPercent}%` }}
+              ></div>
+            </div>
+            <span
+              className="text-gray-400 text-xs"
+              style={{
+                width: "2.1rem",
+                textAlign: "right",
+                display: "inline-block",
+              }}
+            >
+              {stats.hardSolved}
+            </span>
+          </div>
+        </div>
       </div>
-      <span
-        className="text-gray-400 text-xs"
-        style={{
-          width: "2.1rem",
-          textAlign: "right",
-          display: "inline-block",
-        }}
-      >
-        {stats.easySolved}
-      </span>
-    </div>
-    <div className="flex items-center justify-between">
-      <span
-        className="text-yellow-400 text-xs"
-        style={{
-          width: "3.4rem",
-          textAlign: "left",
-          display: "inline-block",
-        }}
-      >
-        Medium
-      </span>
-      <div className="flex-1 h-3 mx-2 bg-gray-700 rounded">
-        <div
-          className="h-full bg-yellow-400 rounded"
-          style={{ width: `${mediumPercent}%` }}
-        ></div>
-      </div>
-      <span
-        className="text-gray-400 text-xs"
-        style={{
-          width: "2.1rem",
-          textAlign: "right",
-          display: "inline-block",
-        }}
-      >
-        {stats.mediumSolved}
-      </span>
-    </div>
-    <div className="flex items-center justify-between">
-      <span
-        className="text-red-400 text-xs"
-        style={{
-          width: "3.4rem",
-          textAlign: "left",
-          display: "inline-block",
-        }}
-      >
-        Hard
-      </span>
-      <div className="flex-1 h-3 mx-2 bg-gray-700 rounded">
-        <div
-          className="h-full bg-red-400 rounded"
-          style={{ width: `${hardPercent}%` }}
-        ></div>
-      </div>
-      <span
-        className="text-gray-400 text-xs"
-        style={{
-          width: "2.1rem",
-          textAlign: "right",
-          display: "inline-block",
-        }}
-      >
-        {stats.hardSolved}
-      </span>
-    </div>
-  </div>
-</div>
-
+    </SpotlightCard>
   );
 };
 

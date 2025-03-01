@@ -83,39 +83,6 @@ const OwnPost: React.FC<PostProps> = ({
       className="bg-gray-800 rounded-lg shadow-lg overflow-hidden"
       onClick={() => setIsModalOpen(true)}
     >
-      {/* Menu Icon Above the Image */}
-      <div className="relative">
-        <button
-          className="absolute z-10 top-3 right-3 text-gray-400 hover:text-white"
-          onClick={handleMenuToggle}
-        >
-          <FontAwesomeIcon icon={faEllipsisVertical} />
-        </button>
-        {isMenuOpen && (
-          <div
-            ref={menuRef}
-            className={`absolute right-1 z-20 top-10 w-40 text-sm bg-gray-700 text-gray-200 rounded-lg shadow-lg transition-opacity duration-200 ${
-              fadeOut ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            <ul>
-              <li className="px-4 py-2 hover:rounded-lg hover:bg-gray-600 cursor-pointer">
-                Edit Post
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-600 hover:rounded-lg cursor-pointer">
-                Delete Post
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-600 hover:rounded-lg cursor-pointer">
-                Share
-              </li>
-              <li className="px-4 py-2 hover:bg-gray-600 hover:rounded-lg cursor-pointer">
-                Report
-              </li>
-            </ul>
-          </div>
-        )}
-      </div>
-
       {/* Post Image with Hover Overlay */}
       <div className="relative w-full h-48 overflow-hidden group">
         <img
@@ -142,6 +109,7 @@ const OwnPost: React.FC<PostProps> = ({
             className="bg-customGray text-white max-w-4xl w-full p-6 rounded-lg flex relative h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Close Button */}
             <button
               className="absolute top-4 right-4 text-gray-300 hover:text-white"
               onClick={() => setIsModalOpen(false)}
@@ -149,9 +117,39 @@ const OwnPost: React.FC<PostProps> = ({
               <FontAwesomeIcon icon={faTimes} size="lg" />
             </button>
 
-            {/* Left: Image Slider with Smooth Transitions */}
-            {/* Left: Image Slider with Smooth Transitions */}
+            {/* Left: Image Slider */}
             <div className="w-1/2 relative overflow-hidden h-full">
+              {/* Move Menu Button Here */}
+              <button
+                className="absolute top-3 right-3 z-10 text-gray-400 hover:text-white bg-black bg-opacity-50 p-2 rounded-full"
+                onClick={handleMenuToggle}
+              >
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </button>
+
+              {/* Menu Dropdown */}
+              {isMenuOpen && (
+                <div
+                  ref={menuRef}
+                  className="absolute right-3 z-20 top-12 w-40 text-sm bg-gray-700 text-gray-200 rounded-lg shadow-lg transition-opacity duration-200"
+                >
+                  <ul>
+                    <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
+                      Edit Post
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
+                      Delete Post
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
+                      Share
+                    </li>
+                    <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
+                      Report
+                    </li>
+                  </ul>
+                </div>
+              )}
+
               {/* Image Container */}
               <div
                 className="flex transition-transform duration-300 ease-in-out h-full"
@@ -170,7 +168,7 @@ const OwnPost: React.FC<PostProps> = ({
                 ))}
               </div>
 
-              {/* Overlay for Likes & Comments (Placed Outside the Sliding Container) */}
+              {/* Likes & Comments Overlay */}
               <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white text-sm px-3 py-2 rounded-lg flex space-x-4">
                 <span className="flex items-center">
                   <FontAwesomeIcon
@@ -207,14 +205,12 @@ const OwnPost: React.FC<PostProps> = ({
               )}
             </div>
 
-            {/* Right: Post Details with Scrollable Content */}
+            {/* Right: Post Details */}
             <div className="w-1/2 flex flex-col px-6 overflow-y-auto">
-              {/* Description */}
               <p className="mb-4">
                 {isExpanded ? description : truncatedDescription}
               </p>
 
-              {/* Show More/Less Button */}
               {description.length > 150 && (
                 <button
                   className="text-blue-400 hover:text-blue-300 text-sm self-start mb-4"
@@ -224,14 +220,9 @@ const OwnPost: React.FC<PostProps> = ({
                 </button>
               )}
 
-              {/* Horizontal Line Separator */}
               <hr className="border-t border-[#b4b4b4] opacity-30 my-2" />
 
-
-
-
               {/* Comments Section */}
-              
               <PostComments comments={comments} />
             </div>
           </div>

@@ -10,11 +10,12 @@ import {
   faInfoCircle,
   faSignOutAlt,
   faExclamationCircle,
+  faDashboard,
 } from "@fortawesome/free-solid-svg-icons";
 
 const SideBar: React.FC = () => {
   return (
-    <div className="w-64 h- bg-customBg border-r border-gray-800 text-white flex flex-col justify-between sticky top-0">
+    <div className="w-64 h-[40vw] fixed bg-customBg border rounded-xl border-gray-800 text-white flex flex-col justify-between top-24">
 
       {/* Top Section */}
       <div className="flex flex-col">
@@ -28,7 +29,7 @@ const SideBar: React.FC = () => {
               >
                 <FontAwesomeIcon icon={faHome} />
                 <span className="sidebar-text">Home</span>
-              </a>
+              </a> 
             </li>
             <li>
               <a
@@ -46,6 +47,15 @@ const SideBar: React.FC = () => {
               >
                 <FontAwesomeIcon icon={faBullhorn} />
                 <span className="sidebar-text">Announcements</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="/dashboard"
+                className="flex items-center gap-3 py-2 px-2 lg:px-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors duration-200 relative"
+              >
+                <FontAwesomeIcon icon={faDashboard} />
+                <span className="sidebar-text">Dashboard</span>
               </a>
             </li>
             <li>
@@ -68,7 +78,7 @@ const SideBar: React.FC = () => {
             </li>
             <li>
               <a
-                href="/profile"
+                href="/profile/JohnDoe"
                 className="flex items-center gap-3 py-2 px-2 lg:px-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors duration-200"
               >
                 <FontAwesomeIcon icon={faUser} />

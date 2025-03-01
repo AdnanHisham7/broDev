@@ -13,7 +13,7 @@ import defaultProfileIcon from "../images/user_icon.svg";
 import Tags from "./Tags";
 import firstRankCrown from "../images/firstRankCrown.svg";
 import secondRankCrown from "../images/secondRankCrown.svg";
-import { motion, AnimatePresence } from "framer-motion";
+import SpotlightCard from "./SpotlightCard";
 
 interface UserProfileProps {
   username: string;
@@ -26,8 +26,9 @@ interface UserProfileProps {
   email: string;
   bio: string;
   rank?: number;
-  postCount?:number;
-  followersCount?:number;
+  postCount?: number;
+  followersCount?: number;
+  isFollow?: boolean;
   leetcodeUsername: string;
   skillsArray: string[];
 }
@@ -45,6 +46,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   rank,
   postCount,
   followersCount,
+  isFollow,
   leetcodeUsername,
   skillsArray,
 }) => {
@@ -75,9 +77,9 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
   const handleEditProfileClick = () => {
     setShowEditProfile(true);
-    setActiveSection("basicInfo")
-    console.log('hey te', activeSection)
-    setIsClosing(true)
+    setActiveSection("basicInfo");
+    console.log("hey te", activeSection);
+    setIsClosing(true);
     setShowOptions(false);
   };
 
@@ -89,146 +91,176 @@ const UserProfile: React.FC<UserProfileProps> = ({
     }, 300);
   };
 
+  const [following, setFollowing] = useState(isFollow);
+  const onFollowToggle = () => {
+    setFollowing((prev) => !prev);
+  };
+
   return (
     <div className="border-b border-gray-800 text-white pb-6 rounded-lg shadow-lg max-w-6xl mx-auto">
       {/* Top Section */}
       <div className="flex flex-col lg:flex-row gap-10">
-      {/* Left Section (User Info, Profile, Bio) */}
-      <div className="flex-1">
-        <div className="flex items-center justify-between">
-          {/* Profile Image and Info */}
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <img
-                src={
-                  userProfile && userProfile.trim() !== ""
-                    ? userProfile
-                    : defaultProfileIcon
-                }
-                alt={`user ranking at ${rank}`}
-                className="w-24 h-24 rounded-3xl bg-gray-700"
-              />
-              {rank === 1 && (
+        {/* Left Section (User Info, Profile, Bio) */}
+        <div className="flex-1">
+          <div className="flex items-center justify-between">
+            {/* Profile Image and Info */}
+            <div className="flex items-center gap-4">
+              <div className="relative -z-10">
                 <img
-                  src={firstRankCrown}
-                  alt="First Rank Crown"
-                  className="absolute -top-14 -left-12 w-32 h-32"
+                  src={
+                    userProfile && userProfile.trim() !== ""
+                      ? userProfile
+                      : defaultProfileIcon
+                  }
+                  alt={`user ranking at ${rank}`}
+                  className="w-24 h-24 rounded-3xl object-cover bg-gray-700"
                 />
-              )}
-              {rank === 2 && (
-                <img
-                  src={secondRankCrown}
-                  alt="Second Rank Crown"
-                  className="absolute -top-14 -left-12 w-32 h-32"
-                />
-              )}
-            </div>
-            <div>
-              <div className="flex">
-                <h1 className="text-2xl font-bold mb-2">{username}</h1>
-                <div className="ml-3 text-xxs">
-                  <Tags tags={tags} />
+                {rank === 1 && (
+                  <img
+                    src={firstRankCrown}
+                    alt="First Rank Crown"
+                    className="absolute -top-8 -left-7 w-20 h-20"
+                  />
+                )}
+                {rank === 2 && (
+                  <img
+                    src={secondRankCrown}
+                    alt="Second Rank Crown"
+                    className="absolute -top-8 -left-7 w-20 h-20"
+                  />
+                )}
+              </div>
+              <div>
+                <div className="flex items-center">
+                  <h1 className="text-2xl font-bold mb-2">{username}</h1>
+                  <div className="ml-3 text-xxs">
+                    <Tags tags={tags} />
+                  </div>
                 </div>
-              </div>
-              {/* <p className="text-sm text-gray-400">{batch}</p>
-              <p className="text-sm text-gray-400">{domain}</p> */}
-              {/* Add Followers and Post Count Here */}
-              <div className="flex gap-4 mt-2">
-                <p className="text-sm text-gray-300">
-                  <span className="font-semibold">{postCount}</span> Posts
-                </p>
-                <p className="text-sm text-gray-300">
-                  <span className="font-semibold">{followersCount}</span> Followers
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="ml-4 relative">
-            <FontAwesomeIcon
-              icon={faEllipsisVertical}
-              className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer"
-              onClick={handleOptionsClick}
-            />
-            {showOptions && (
-              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5">
-                <div className="py-1">
-                  <button
-                    onClick={handleEditProfileClick}
-                    className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left"
-                  >
-                    Edit Profile
-                  </button>
-                  <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left">
-                    Logout
-                  </button>
-                  <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left">
-                    Report
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="mt-4 text-gray-00 text-sm lg:min-w-[70px]">
-          <p>
-            {isExpanded ? bio : truncatedBio}
-            {bio.length > 150 && (
-              <button
-                onClick={handleShowMore}
-                className={`text-xs text-gray-500 ${
-                  isExpanded ? "ml-3" : ""
-                }`}
-              >
-                {isExpanded ? `Show Less` : "Show More"}
-              </button>
-            )}
-          </p>
-        </div>
-        <div className="mt-4 flex gap-4 text-sm flex-wrap">
-          <a
-            href={githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-customGray px-4 py-2 rounded-lg hover:bg-gray-800 flex items-center gap-2 transition-colors duration-200"
-          >
-            <FontAwesomeIcon icon={faGithub} />
-            GitHub
-          </a>
-          <a
-            href={linkedlnLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-customGray px-4 py-2 rounded-lg hover:bg-gray-800 flex items-center gap-2 transition-colors duration-200"
-          >
-            <FontAwesomeIcon icon={faLinkedin} />
-            LinkedIn
-          </a>
-          <a
-            href={`mailto:${email}`}
-            className="bg-customGray px-4 py-2 rounded-lg hover:bg-gray-800 flex items-center gap-2 transition-colors duration-200"
-          >
-            <FontAwesomeIcon icon={faEnvelope} />
-            Mail Me
-          </a>
-        </div>
-      </div>
 
-      {/* Skills and Stats Section */}
-      <div className="lg:flex gap-6 lg:items-start lg:justify-between hidden">
-        {/* Stats */}
-        <div className="lg:w-1/2 flex-grow-0">
-          <LeetCodeStats leetcodeUsername={leetcodeUsername} />
+                {/* Post & Followers Count */}
+                <div className="flex gap-4 mt-2">
+                  <p className="text-sm text-gray-300">
+                    <span className="font-semibold">{postCount}</span> Posts
+                  </p>
+                  <p className="text-sm text-gray-300">
+                    <span className="font-semibold">{followersCount}</span>{" "}
+                    Followers
+                  </p>
+                </div>
+
+                {/* Follow Button (Now below post/followers row) */}
+                <div className="mt-3">
+                  <button
+                    className={`px-4 py-1 text-sm font-semibold rounded-lg transition-all 
+                        ${
+                          following
+                            ? "bg-gray-700 text-white"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }
+                      `}
+                    onClick={onFollowToggle} // Call function when clicked
+                  >
+                    {following ? "Following" : "Follow"}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* <p className="text-sm text-gray-400">{batch}</p>
+              <p className="text-sm text-gray-400">{domain}</p> */}
+            <div className="ml-4 relative">
+              <FontAwesomeIcon
+                icon={faEllipsisVertical}
+                className="absolute -top-12  w-6  h-6 text-gray-400 hover:text-white cursor-pointer"
+                onClick={handleOptionsClick}
+              />
+              {showOptions && (
+                <div className="absolute -right-2 -top-4 w-48 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5">
+                  <div>
+                    <button
+                      onClick={handleEditProfileClick}
+                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md"
+                    >
+                      Edit Profile
+                    </button>
+                    <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md">
+                      Logout
+                    </button>
+                    <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md">
+                      About
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="mt-4 text-gray-00 text-sm lg:min-w-[70px]">
+            <p>
+              {isExpanded ? bio : truncatedBio}
+              {bio.length > 150 && (
+                <button
+                  onClick={handleShowMore}
+                  className={`text-xs text-gray-500 ${
+                    isExpanded ? "ml-3" : ""
+                  }`}
+                >
+                  {isExpanded ? `Show Less` : "Show More"}
+                </button>
+              )}
+            </p>
+          </div>
+          <div className="mt-4 flex gap-4 text-sm flex-wrap">
+            <a
+              href={githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-customGray px-4 py-2 rounded-lg hover:bg-lightGray flex items-center gap-2 transition-colors duration-200"
+            >
+              <FontAwesomeIcon icon={faGithub} />
+              GitHub
+            </a>
+            <a
+              href={linkedlnLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-customGray px-4 py-2 rounded-lg hover:bg-lightGray flex items-center gap-2 transition-colors duration-200"
+            >
+              <FontAwesomeIcon icon={faLinkedin} />
+              LinkedIn
+            </a>
+          </div>
         </div>
-        <div className="lg:w-1/2 lg:min-w-[140px] flex-grow-0 max-w-full text-start border p-4 rounded-xl border-gray-800 pb-8">
-          <h2 className="text-lg font-semibold mb-2">Skills</h2>
-          <ul className="list-disc list-inside text-xs text-gray-300">
-            {skillsArray.map((skill) => (
-              <li key={skill}>{skill}</li>
-            ))}
-          </ul>
+
+        {/* Skills and Stats Section */}
+        <div className="lg:flex gap-6 lg:items-start lg:justify-between hidden">
+          {/* Stats */}
+          <div className="lg:w-1/2 flex-grow-0">
+            <a
+              href={`https://leetcode.com/u/${leetcodeUsername}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <LeetCodeStats leetcodeUsername={leetcodeUsername} />
+            </a>
+          </div>
+
+          <SpotlightCard
+            className="custom-spotlight-card"
+            spotlightColor="rgba(200, 200, 200, 0.2) 
+"
+          >
+            <div className="lg:w-1/2 lg:min-w-[140px] flex-grow-0 max-w-full text-start border p-4 rounded-xl border-gray-800 pb-8">
+              <h2 className="text-lg font-semibold mb-2">Skills</h2>
+              <ul className="list-disc list-inside text-xs text-gray-300">
+                {skillsArray.map((skill) => (
+                  <li key={skill}>{skill}</li>
+                ))}
+              </ul>
+            </div>
+          </SpotlightCard>
         </div>
       </div>
-    </div>
 
       {/* Edit Profile Modal */}
       {showEditProfile && (
@@ -296,7 +328,11 @@ const UserProfile: React.FC<UserProfileProps> = ({
                 >
                   Basic Information
                   <FontAwesomeIcon
-                    icon={activeSection === "basicInfo" ? faChevronUp : faChevronDown}
+                    icon={
+                      activeSection === "basicInfo"
+                        ? faChevronUp
+                        : faChevronDown
+                    }
                     className="text-gray-400 transition-transform duration-300"
                   />
                 </button>
@@ -367,7 +403,11 @@ const UserProfile: React.FC<UserProfileProps> = ({
                 >
                   Social Media Links
                   <FontAwesomeIcon
-                    icon={activeSection === "socialLinks" ? faChevronUp : faChevronDown}
+                    icon={
+                      activeSection === "socialLinks"
+                        ? faChevronUp
+                        : faChevronDown
+                    }
                     className="text-gray-400 transition-transform duration-300"
                   />
                 </button>
@@ -492,8 +532,6 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     </button>
                   </form>
                 </div> */}
-
-
               </div>
             </div>
           </div>

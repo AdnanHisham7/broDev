@@ -29,6 +29,8 @@ import OwnPost from "./components/ui/OwnPost";
 import ProfilePage from "./components/pages/ProfilePage";
 import CommentsPad from "./components/ui/CommentsPad";
 import { commentsData } from "./data";
+import Layout from "./components/pages/Layout";
+import Dashboard from "./components/pages/Dashboard";
 
 function App() {
   const navigate = useNavigate();
@@ -52,56 +54,8 @@ function App() {
     leetcodeUsername: "ItsSadhik",
     skillsArray: ["JavaSc", "React", "Node.js", "TypeScript"],
   };
-
-  const postsData = [
-    {
-      images: [
-        "https://th.bing.com/th/id/OIP.U8JB9b-gG9zf8MH3r6idbgHaE8?rs=1&pid=ImgDetMain","https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/01/the-bad-batch-tech.jpg","https://th.bing.com/th/id/OIP.U8JB9b-gG9zf8MH3r6idbgHaE8?rs=1&pid=ImgDetMain"
-      ],
-      likes: 120,
-      commentsCount: 30,
-      comments: [],
-      description: "This is my latest project showcase!",
-    },
-    {
-      images: [
-        "https://static1.colliderimages.com/wordpress/wp-content/uploads/2023/01/the-bad-batch-tech.jpg",
-      ],
-      likes: 80,
-      commentsCount: 15,
-      comments:commentsData,
-      description: "Exploring new technologies every day!",
-    },
-    {
-      images: [
-        "https://th.bing.com/th/id/OIP.KwCCuz0alNOKhgf_4shI7AHaFF?w=640&h=440&rs=1&pid=ImgDetMain",
-      ],
-      likes: 80,
-      commentsCount: 15,
-      comments: [],
-      description: "Exploring new technologies every day!",
-    },
-    {
-      images: [
-        "https://th.bing.com/th/id/OIP.NKv4YX7bul61AY8Ye_YYlwHaNK?rs=1&pid=ImgDetMain",
-      ],
-      likes: 80,
-      commentsCount: 15,
-      comments:commentsData,
-
-      description: "Exploring new technologies every day!",
-    },
-    {
-      images: [""],
-      likes: 80,
-      commentsCount: 15,
-      comments:commentsData,
-      description: "Exploring new technologies every day!",
-    },
-  ];
-
   
-
+  
   const [count, setCount] = useState(0);
 
   return (
@@ -247,7 +201,7 @@ function App() {
                     iconLeft={
                       <FontAwesomeIcon icon={faFileAlt} className="w-5 h-5" />
                     }
-                    onClick={() => navigate("/profile")}
+                    onClick={() => navigate("/profile/JohnDoe")}
                   ></Button>
 
                   <Button
@@ -268,7 +222,13 @@ function App() {
         <Route path="/signUp" element={<SignupPage></SignupPage>} />
         <Route path="/checkMailOtp" element={<CheckMailOtp></CheckMailOtp>} />
         <Route path="/sidebar" element={<SideBar></SideBar>} />
-        <Route path="/home" element={<HomePage></HomePage>} />
+
+        <Route path="/" element={<Layout />}>
+          <Route path="home" element={<HomePage />} />
+          <Route path="profile/:username" element={<ProfilePage />} />
+          <Route path="dashboard" element={<Dashboard />} />
+        </Route>
+
         <Route
           path="/commentsPad"
           element={
@@ -282,15 +242,12 @@ function App() {
         />
 
         <Route
-          path="/profile"
+          path="/profile/:username"
           element={
-            <ProfilePage
-              userProfileData={userProfileData}
-              ownPosts={postsData}
-            ></ProfilePage>
+            <ProfilePage/>
           }
         />
-        <Route path="/navbar" element={<NavBar></NavBar>} />
+        {/* <Route path="/navbar" element={<NavBar></NavBar>} /> */}
 
         <Route
           path="/userProfileCard"

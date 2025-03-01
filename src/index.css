@@ -16,6 +16,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  -ms-overflow-style: none; /* Hides scrollbar in IE & Edge */
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
 }
 
 /* a {

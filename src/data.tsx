@@ -24,7 +24,7 @@ export const testProfiles = {
     githubLink: "https://github.com/johndoe",
     linkedlnLink: "https://linkedin.com/in/johndoe",
     email: "john.doe@example.com",
-    bio: "Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.Passionate developer with experience in building scalable web applications.",
+    bio:"illed in penetration testing, malware analysis, and security audits.",
     rank: 1,
     postCount:10,
     followersCount:256,

@@ -24,7 +24,7 @@ interface UserProfileProps {
   githubLink: string;
   linkedlnLink: string;
   email: string;
-  bio: string;
+  bio?: string | null;
   rank?: number;
   postCount?: number;
   followersCount?: number;
@@ -65,7 +65,8 @@ const UserProfile: React.FC<UserProfileProps> = ({
     setActiveSection((prev) => (prev === section ? null : section));
   };
 
-  const truncatedBio = bio.length > 150 ? bio.slice(0, 150) + "..." : bio;
+  const truncatedBio =
+    bio && bio?.length > 150 ? bio?.slice(0, 150) + "..." : bio;
 
   const handleShowMore = () => {
     setIsExpanded((prev) => !prev);
@@ -195,20 +196,35 @@ const UserProfile: React.FC<UserProfileProps> = ({
               )}
             </div>
           </div>
-          <div className="mt-4 text-gray-00 text-sm lg:min-w-[70px]">
-            <p>
-              {isExpanded ? bio : truncatedBio}
-              {bio.length > 150 && (
-                <button
-                  onClick={handleShowMore}
-                  className={`text-xs text-gray-500 ${
-                    isExpanded ? "ml-3" : ""
-                  }`}
-                >
-                  {isExpanded ? `Show Less` : "Show More"}
-                </button>
+          <div className="mt-4 text-gray-300 text-sm w-full">
+            <div className="relative -z-10">
+              {/* Hidden dummy text to maintain width */}
+              <span className="invisible whitespace-pre-wrap">
+                This is a simple phrase used to hold the space. Clearer insights
+                in structured writing help to convey information.
+              </span>
+
+              {/* Bio content or placeholder */}
+              {bio ? (
+                <p className="absolute top-0 left-0 w-full">
+                  {isExpanded ? bio : truncatedBio}
+                  {bio.length > 150 && (
+                    <button
+                      onClick={handleShowMore}
+                      className={`text-xs text-gray-500 ${
+                        isExpanded ? "ml-3" : ""
+                      }`}
+                    >
+                      {isExpanded ? `Show Less` : "Show More"}
+                    </button>
+                  )}
+                </p>
+              ) : (
+                <p className="absolute top-0 left-0 w-full text-gray-500 italic">
+                  Add bio here
+                </p>
               )}
-            </p>
+            </div>
           </div>
           <div className="mt-4 flex gap-4 text-sm flex-wrap">
             <a
@@ -247,7 +263,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
 
           <SpotlightCard
             className="custom-spotlight-card"
-            spotlightColor="rgba(200, 200, 200, 0.2) 
+            spotlightColor="rgba(200, 200, 200, 0.25) 
 "
           >
             <div className="lg:w-1/2 lg:min-w-[140px] flex-grow-0 max-w-full text-start border p-4 rounded-xl border-gray-800 pb-8">
@@ -382,9 +398,9 @@ const UserProfile: React.FC<UserProfileProps> = ({
                         Bio
                       </label>
                       <textarea
-                        defaultValue={bio}
+                        defaultValue={bio ? bio : ""}
                         className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white hide-scrollbar"
-                        placeholder="Bio"
+                        placeholder="Add your bio here"
                       />
                     </div>
                     <button
@@ -471,67 +487,6 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     </button>
                   </form>
                 </div>
-
-                {/* Change Password Section */}
-                {/* <button
-                  onClick={() => toggleSection("passwordForm")}
-                  className="w-full text-left text-gray-200 font-semibold text-sm flex items-center justify-between p-3 rounded-md hover:bg-midGray transition-all duration-300"
-                >
-                  Reset Password
-                  <FontAwesomeIcon
-                    icon={activeSection === "passwordForm" ? faChevronUp : faChevronDown}
-                    className="text-gray-400 transition-transform duration-300"
-                  />
-                </button>
-                <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                    activeSection === "passwordForm"
-                      ? "max-h-[500px] opacity-100 py-3 px-3"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <form className="p-4 border rounded-lg border-midGray">
-                    <div className="mb-4">
-                      <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
-                        Current Password
-                      </label>
-                      <input
-                        type="password"
-                        placeholder="Enter current password"
-                        className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
-                        New Password
-                      </label>
-                      <input
-                        type="password"
-                        placeholder="Enter new password"
-                        className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
-                        Confirm New Password
-                      </label>
-                      <input
-                        type="password"
-                        placeholder="Confirm new password"
-                        className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="w-1/2 bg-gray-200 text-sm text-customBg font-semibold p-2 rounded-lg transition-all"
-                    >
-                      Save Changes
-                    </button>
-                  </form>
-                </div> */}
               </div>
             </div>
           </div>
@@ -542,3 +497,68 @@ const UserProfile: React.FC<UserProfileProps> = ({
 };
 
 export default UserProfile;
+
+{
+  /* Change Password Section */
+}
+{
+  /* <button
+  onClick={() => toggleSection("passwordForm")}
+  className="w-full text-left text-gray-200 font-semibold text-sm flex items-center justify-between p-3 rounded-md hover:bg-midGray transition-all duration-300"
+>
+  Reset Password
+  <FontAwesomeIcon
+    icon={activeSection === "passwordForm" ? faChevronUp : faChevronDown}
+    className="text-gray-400 transition-transform duration-300"
+  />
+</button>
+<div
+  className={`transition-all duration-300 ease-in-out overflow-hidden ${
+    activeSection === "passwordForm"
+      ? "max-h-[500px] opacity-100 py-3 px-3"
+      : "max-h-0 opacity-0"
+  }`}
+>
+  <form className="p-4 border rounded-lg border-midGray">
+    <div className="mb-4">
+      <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
+        Current Password
+      </label>
+      <input
+        type="password"
+        placeholder="Enter current password"
+        className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
+      />
+    </div>
+
+    <div className="mb-4">
+      <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
+        New Password
+      </label>
+      <input
+        type="password"
+        placeholder="Enter new password"
+        className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
+      />
+    </div>
+
+    <div className="mb-4">
+      <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
+        Confirm New Password
+      </label>
+      <input
+        type="password"
+        placeholder="Confirm new password"
+        className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
+      />
+    </div>
+
+    <button
+      type="submit"
+      className="w-1/2 bg-gray-200 text-sm text-customBg font-semibold p-2 rounded-lg transition-all"
+    >
+      Save Changes
+    </button>
+  </form>
+</div> */
+}

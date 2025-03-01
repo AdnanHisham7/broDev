@@ -12,6 +12,9 @@ export default {
       fontSize: {
         'xxs': '0.625rem', // 10px
       },
+      fontFamily: {
+        anton: ["Anton", "sans-serif"],
+      },
       colors: {
         customBg:{
           DEFAULT:'#000000',

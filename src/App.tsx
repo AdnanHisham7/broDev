@@ -30,7 +30,10 @@ import ProfilePage from "./components/pages/ProfilePage";
 import CommentsPad from "./components/ui/CommentsPad";
 import { commentsData } from "./data";
 import Layout from "./components/pages/Layout";
-import Dashboard from "./components/pages/Dashboard";
+import Dashboard from "./components/pages/Users";
+import UnderConstruction from "./components/pages/UnderConstruction";
+import Users from "./components/pages/Users";
+import Faculties from "./components/pages/Faculties";
 
 function App() {
   const navigate = useNavigate();
@@ -226,8 +229,15 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="home" element={<HomePage />} />
           <Route path="profile/:username" element={<ProfilePage />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard" element={<UnderConstruction />} />
+          <Route path="users" element={<Users />} />
         </Route>
+
+        <Route path="/dashboard" element={<Layout />}>
+          <Route path="users" element={<Users />} />
+          <Route path="faculties" element={<Faculties />} />
+        </Route>
+
 
         <Route
           path="/commentsPad"

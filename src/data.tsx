@@ -1,4 +1,6 @@
+import { V } from "framer-motion/dist/types.d-6pKw1mTI";
 import React from "react";
+import { Comment } from "./components/ui/CommentsPad";
 
 //Search Cards data
 export const users = [
@@ -357,6 +359,699 @@ export const manageUsers = [
     email: "necheyanmidlaj@gmail.com",
     tags: { linkedlnContest: "ff5722", debugger: "3b82f6" },
     isBlocked: true,
+  },
+];
+
+export const HomePagePostsData: {
+  id:number;
+  username: string;
+  domain: string;
+  tags: { [key: string]: string }; // Explicitly define as a dynamic object
+  images: string[];
+  commentsData?: Comment[];
+  likes: number;
+  isLiked:boolean;
+  comments: number;
+  description: string;
+}[] = [
+  {
+    id:1,
+    username: "user_name",
+    isLiked:false,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    },
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+    commentsData: [
+      {
+        id: 1,
+        username: "user_name",
+        userProfile:
+          "https://yt3.googleusercontent.com/ytc/AL5GRJXp4_LjX5QYQqa_2PZRyaxWdA2Hwfe3mVz9nO5NJg=s900-c-k-c0x00ffffff-no-rj",
+        comment: "Amazdsdsing insighsdsdt! 👏",
+        likesCount: 22100,
+        isLiked: false,
+        isOwner: true,
+        nestedCommentsCount: 4,
+        nestedComments: [
+          {
+            id: 101,
+            username: "nested_user_1",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.ck0nVJIcSOthXRXM7DcomQHaHa?rs=1&pid=ImgDetMain",
+            comment: "Yeah broh!",
+            likesCount: 105,
+            isLiked: true,
+            isOwner: true,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+          {
+            id: 102,
+            username: "nested_user_2",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.0fkvqXwjxiCiRZwUTsxqsAAAAA?w=250&h=258&rs=1&pid=ImgDetMain",
+            comment: "This is so helpful, thanks for sharing! 🙌",
+            likesCount: 89,
+            isOwner: false,
+            isLiked: false,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+          {
+            id: 101,
+            username: "nested_user_1",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.ck0nVJIcSOthXRXM7DcomQHaHa?rs=1&pid=ImgDetMain",
+            comment: "Yeah broh!",
+            likesCount: 105,
+            isLiked: true,
+            isOwner: true,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+          {
+            id: 102,
+            username: "nested_user_2",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.0fkvqXwjxiCiRZwUTsxqsAAAAA?w=250&h=258&rs=1&pid=ImgDetMain",
+            comment: "This is so helpful, thanks for sharing! 🙌",
+            likesCount: 89,
+            isOwner: false,
+            isLiked: false,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+        ],
+      },
+      {
+        id: 2,
+        username: "user_name",
+        userProfile:
+          "https://th.bing.com/th/id/OIP.I4GIrt2tUWq3NtJyBx_cwgHaJW?w=608&h=768&rs=1&pid=ImgDetMain",
+        comment: "Wow, this post is incredibly detailed and informative.",
+        likesCount: 22100,
+        isLiked: false,
+        isOwner: true,
+        nestedCommentsCount: 2,
+        nestedComments: [
+          {
+            id: 201,
+            username: "nested_user_3",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.2GogDoqYJrR3eaYg1Lf3aAHaHy?w=506&h=532&rs=1&pid=ImgDetMain",
+            comment:
+              "Interesting perspective, thanks for sharing! 🤔Interesting perspective, thanks for sharing! 🤔Interesting perspective, thanks for sharing! 🤔Interesting perspective, thanks for sharing! 🤔Interesting perspective, thanks for sharing! 🤔Interesting perspective, thanks for sharing! 🤔",
+            likesCount: 45,
+            isOwner: false,
+            isLiked: false,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+          {
+            id: 202,
+            username: "nested_user_4",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.2GogDoqYJrR3eaYg1Lf3aAHaHy?w=506&h=532&rs=1&pid=ImgDetMain",
+            comment: "Fantastic content as always! 🌟",
+            likesCount: 120,
+            isOwner: false,
+            isLiked: false,
+
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+          {
+            id: 203,
+            username: "nested_user_5",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.2GogDoqYJrR3eaYg1Lf3aAHaHy?w=506&h=532&rs=1&pid=ImgDetMain",
+            comment: "@user_name That's not obvious.",
+            likesCount: 30,
+            isOwner: false,
+            isLiked: false,
+
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+          {
+            id: 204,
+            username: "nested_user_6",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.2GogDoqYJrR3eaYg1Lf3aAHaHy?w=506&h=532&rs=1&pid=ImgDetMain",
+            comment: "Thanks Dude!",
+            likesCount: 10,
+            isLiked: false,
+            isOwner: false,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id:2,
+    username: "user_name",
+    isLiked:false,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+    commentsData:[
+      {
+        id: 1,
+        username: "user_name",
+        userProfile:
+          "https://yt3.googleusercontent.com/ytc/AL5GRJXp4_LjX5QYQqa_2PZRyaxWdA2Hwfe3mVz9nO5NJg=s900-c-k-c0x00ffffff-no-rj",
+        comment: "Amazindsdsdg insight! 👏",
+        likesCount: 22100,
+        isLiked: false,
+        isOwner: true,
+        nestedCommentsCount: 2,
+        nestedComments: [
+          {
+            id: 101,
+            username: "nested_user_1",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.ck0nVJIcSOthXRXM7DcomQHaHa?rs=1&pid=ImgDetMain",
+            comment: "Yeah broh!",
+            likesCount: 105,
+            isLiked: true,
+            isOwner: true,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+          {
+            id: 102,
+            username: "nested_user_2",
+            userProfile:
+              "https://th.bing.com/th/id/OIP.0fkvqXwjxiCiRZwUTsxqsAAAAA?w=250&h=258&rs=1&pid=ImgDetMain",
+            comment: "This is so helpful, thanks for sharing! 🙌",
+            likesCount: 89,
+            isOwner: false,
+            isLiked: false,
+            nestedCommentsCount: 0,
+            nestedComments: [],
+          },
+        ],
+      },
+    ]
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      hry: "160",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+      "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
+  },
+  {
+    username: "user_name",
+    isLiked:false,
+    id:5,
+    domain: "Mern Stack Developer",
+    tags: {
+      tagExample: "7F0303",
+      LinkedIn: "16037F",
+    } as { [key: string]: string }, // Type assertion
+    images: [
+      "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
+    ],
+    likes: 100,
+    comments: 2100,
+    description:
+      "🚀 Explore the latest in technology and trends shaping the future.",
   },
 ];
 

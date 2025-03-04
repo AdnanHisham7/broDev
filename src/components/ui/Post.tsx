@@ -13,18 +13,24 @@ import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import LikeCommentButton from "./LikeCommentButton"; // Import the new component
 
 interface PostProps {
+  id: number; // Add ID prop
+  onClickComment?: (postId: number) => void;
+  onClickLike?: (postId: number, newIsLiked: boolean) => void;
   userProfile?: string;
   username: string;
   domain: string;
   tags: { [key: string]: string }; // Tags as {tagName: colorCode}
   images: string[];
   likes: number;
-  isLiked?:boolean;
+  isLiked?: boolean;
   comments: number;
   description: string;
 }
 
 const Post: React.FC<PostProps> = ({
+  id,
+  onClickComment,
+  onClickLike,
   userProfile,
   username,
   domain,
@@ -121,7 +127,9 @@ const Post: React.FC<PostProps> = ({
           />
           <div className="ml-3">
             <div className="flex">
-              <p className="text-white font-semibold">{username}</p>
+              <a href="/profile/JohnDoe">
+                <p className="text-white font-semibold">{username}</p>
+              </a>
               {/* Tags Section */}
               <div className="ml-3 text-xs">
                 <Tags tags={tags} /> {/* Move the Tags component here */}
@@ -214,8 +222,21 @@ const Post: React.FC<PostProps> = ({
       {/* Likes, Comments, and Save Icon */}
       <div className="flex items-center justify-between py-4 border-t border-gray-800">
         <div className="flex items-center gap-2">
-          <LikeCommentButton type="like" isLiked={isLiked} count={likes} /> {/* Like Button */}
-          <LikeCommentButton type="comment" count={comments} />{" "}
+          <LikeCommentButton
+            type="like"
+            isLiked={isLiked}
+            count={likes}
+            onClick={() => {
+              console.log(id, !isLiked);
+              onClickLike?.(id, !isLiked);
+            }}
+          />{" "}
+          {/* Like Button */}
+          <LikeCommentButton
+            type="comment"
+            count={comments}
+            onClick={() => onClickComment?.(id)}
+          />{" "}
           {/* Comment Button */}
         </div>
         <button className="text-gray-400 hover:text-white text-xl">
@@ -237,7 +258,7 @@ const Post: React.FC<PostProps> = ({
           )}
         </p>
       </div>
-    </div>  
+    </div>
   );
 };
 

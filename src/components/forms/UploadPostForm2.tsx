@@ -1,140 +1,260 @@
-import React, { useState } from "react";
+import React, {
+  useCallback,
+  useState,
+  useRef,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import ReactCrop, { type Crop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 
 interface UploadPostForm2Props {
-  images: string[]; // Define the type of images as an array of strings
-  handleImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void; // Define the type for the handleImageUpload function
-  onNext: (croppedImages: string[]) => void; // Function to handle the next button click and pass cropped images
+  images: string[];
+  ratio: string;
+  onRatioChange: (ratio: string) => void;
 }
 
-const UploadPostForm2: React.FC<{
-  images: string[];
-  handleBack: () => void;
-  onNext: (croppedImages: string[]) => void; // Pass onNext prop from parent
-}> = ({ images, handleBack, onNext }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imageRatio, setImageRatio] = useState("4:5");
+export interface UploadPostForm2Handle {
+  handleCrop: () => Promise<string[]>;
+}
 
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-  };
+const UploadPostForm2 = forwardRef<UploadPostForm2Handle, UploadPostForm2Props>(
+  ({ images, ratio, onRatioChange }, ref) => {
+    const [displayDims, setDisplayDims] = useState<
+      { width: number; height: number }[]
+    >([]);
 
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      Math.min(prevIndex + 1, images.length - 1)
+    // Add handler for image load
+    const handleImageLoad = (img: HTMLImageElement, index: number) => {
+      setDisplayDims((prev) => {
+        const newDims = [...prev];
+        newDims[index] = { width: img.width, height: img.height };
+        return newDims;
+      });
+    };
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [crops, setCrops] = useState<Crop[]>(() =>
+      Array(images.length).fill({
+        unit: "%",
+        width: 100,
+        height: 100,
+        x: 0,
+        y: 0,
+      })
     );
-  };
 
-  const handleRatioChange = (ratio: string) => {
-    setImageRatio(ratio);
-  };
+    const aspectRatios: { [key: string]: number } = {
+      "4:5": 4 / 5,
+      "1:1": 1,
+      "16:9": 16 / 9,
+    };
 
-  const handleNext = () => {
-    // Capture cropped images (for example, you might crop the images on the front-end or keep the original ones for now)
-    const croppedImages = images; // Here, assuming the images are already cropped or selected
-    onNext(croppedImages); // Send the cropped images to the next step
-  };
+    // const imgRefs = useRef<HTMLImageElement[]>([]);
+    const currentAspect = aspectRatios[ratio];
 
+    useEffect(() => {
+      const updateCropForAllImages = async () => {
+        const newCrops = await Promise.all(
+          images.map(async (imgSrc) => {
+            const img = new Image();
+            img.src = imgSrc;
+            await new Promise((resolve) => {
+              img.onload = resolve;
+            });
+            return createCenteredCrop(img, currentAspect);
+          })
+        );
+        setCrops(newCrops);
+      };
 
-  return (
-    <div className="px-8 pb-8 pt-6 bg-customBg border border-gray-800 rounded-md shadow-md min-w-[900px] max-w-3xl">
-      <div className="flex items-center justify-end mb-10">
-        {/* Back Button */}
-        <button
-          type="button"
-          onClick={handleBack}
-          className="text-sm text-gray-500"
-        >
-          Back
-        </button>
+      updateCropForAllImages();
+    }, [ratio, images]);
 
-        {/* Next Button */}
-        <button
-          onClick={handleNext}
-          type="button"
-          className="text-sm text-blue-500 ml-3"
-        >
-          Next
-        </button>
+    const createCenteredCrop = (
+      img: HTMLImageElement,
+      aspect: number
+    ): Crop => {
+      const imgAspect = img.naturalWidth / img.naturalHeight;
 
-        
-      </div>
+      let width, height;
 
-      <div className="flex justify-center">
-        {/* Left Section: Image Preview with Sliding Animation */}
-        <div className="relative flex-1 h-full overflow-hidden">
-          {/* Image Counter */}
-          <div className="absolute top-4 right-4 z-10 bg-black bg-opacity-60 font-extralight text-gray-100 text-xxs px-2 py-1 rounded-full">
-            {currentImageIndex + 1}/{images.length}
+      if (imgAspect > aspect) {
+        // Image is wider than crop aspect
+        height = 100;
+        width = height * aspect;
+      } else {
+        // Image is taller than crop aspect
+        width = 100;
+        height = width / aspect;
+      }
+
+      return {
+        unit: "%",
+        width,
+        height,
+        x: (100 - width) / 2,
+        y: (100 - height) / 2,
+      };
+    };
+
+    const getCroppedImg = (
+      image: HTMLImageElement,
+      crop: Crop
+    ): Promise<string> => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) return Promise.reject("Canvas context not found");
+
+      // Calculate crop dimensions based on unit
+      let cropX, cropY, cropWidth, cropHeight;
+
+      if (crop.unit === "%") {
+        // Convert percentages to pixels based on natural dimensions
+        cropX = (crop.x * image.naturalWidth) / 100;
+        cropY = (crop.y * image.naturalHeight) / 100;
+        cropWidth = (crop.width * image.naturalWidth) / 100;
+        cropHeight = (crop.height * image.naturalHeight) / 100;
+      } else {
+        // Handle 'px' unit (though not used in current setup)
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+        cropX = crop.x * scaleX;
+        cropY = crop.y * scaleY;
+        cropWidth = crop.width * scaleX;
+        cropHeight = crop.height * scaleY;
+      }
+
+      // Set canvas dimensions to match the crop area
+      canvas.width = cropWidth;
+      canvas.height = cropHeight;
+
+      // Draw the cropped image onto the canvas
+      ctx.drawImage(
+        image,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        cropWidth,
+        cropHeight
+      );
+
+      return new Promise((resolve) => {
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) return;
+            resolve(URL.createObjectURL(blob));
+          },
+          "image/jpeg",
+          0.9
+        );
+      });
+    };
+
+    const handleCrop = async () => {
+      const croppedImages = await Promise.all(
+        images.map(async (imgSrc, index) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous"; // Add if needed for CORS
+          img.src = imgSrc;
+          await new Promise((resolve) => {
+            img.onload = resolve;
+            img.onerror = () => resolve(null); // Handle errors
+          });
+
+          if (!img.naturalWidth) return ""; // Handle failed loads
+
+          return getCroppedImg(img, crops[index]);
+        })
+      );
+      return croppedImages.filter((url) => url !== ""); // Filter out failed crops
+    };
+
+    useImperativeHandle(ref, () => ({
+      handleCrop,
+    }));
+
+    const handleCropChange = (crop: Crop, index: number) => {
+      setCrops((prev) => {
+        const newCrops = [...prev];
+        newCrops[index] = crop;
+        return newCrops;
+      });
+    };
+
+    return (
+      <div className="grid grid-cols-2 gap-8 min-h-[250px]">
+        <div className="relative bg-gray-800 rounded-xl p-4">
+          <div className=" bg-gray-700 rounded-lg overflow-hidden">
+            <ReactCrop
+              crop={crops[currentIndex]}
+              onChange={(c) => handleCropChange(c, currentIndex)}
+              aspect={currentAspect}
+              onImageLoaded={(img) => handleImageLoad(img, currentIndex)}
+              keepSelection
+              disabled // Add this prop to disable all interactions
+            >
+              <img
+                src={images[currentIndex]}
+                alt="Preview"
+                className="w-full h-full object-cover"
+              />
+            </ReactCrop>
           </div>
 
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${currentImageIndex * 100}%)`, // Move the images based on the index
-            }}
-          >
-            {images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`Post image ${index + 1}`}
-                className={`w-full h-full object-cover ${
-                  imageRatio === "4:5"
-                    ? "aspect-[4/5]"
-                    : imageRatio === "1:1"
-                    ? "aspect-square"
-                    : "aspect-[16/9]"
+          {/* Navigation dots */}
+          <div className="flex justify-center mt-4 space-x-2">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`w-3 h-3 rounded-full ${
+                  currentIndex === idx ? "bg-blue-600" : "bg-gray-600"
                 }`}
               />
             ))}
           </div>
-
-          {/* Left Arrow Button */}
-          {currentImageIndex > 0 && (
-            <button
-              onClick={handlePrevImage}
-              className="absolute text-xs left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
-            >
-              <FontAwesomeIcon icon={faChevronLeft} />
-            </button>
-          )}
-
-          {/* Right Arrow Button */}
-          {currentImageIndex < images.length - 1 && (
-            <button
-              onClick={handleNextImage}
-              className="absolute text-xs right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
-            >
-              <FontAwesomeIcon icon={faChevronRight} />
-            </button>
-          )}
         </div>
 
-        {/* Right Section: Ratio Buttons */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-4 p-4">
-          <p className="text-gray-400 text-sm mb-4">Select Image Ratio</p>
-          {["4:5", "1:1", "16:9"].map((ratio) => (
-            <button
-              key={ratio}
-              onClick={() => handleRatioChange(ratio)}
-              className={`px-4 py-2 rounded-md ${
-                imageRatio === ratio
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              } transition-colors duration-200`}
-            >
-              {ratio}
-            </button>
-          ))}
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <h3 className="text-gray-300 text-lg">Select Aspect Ratio</h3>
+            <div className="flex items-center justify-center gap-4">
+              {["4:5", "1:1", "16:9"].map((r) => (
+                <button
+                  key={r}
+                  onClick={() => onRatioChange(r)}
+                  className={`p-4 rounded-lg ${
+                    ratio === r
+                      ? "bg-blue-600/30 border-2 border-blue-500"
+                      : "bg-gray-800"
+                  }`}
+                >
+                  <span
+                    className={`text-sm ${
+                      ratio === r ? "text-blue-400" : "text-gray-400"
+                    }`}
+                  >
+                    {r}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default UploadPostForm2;

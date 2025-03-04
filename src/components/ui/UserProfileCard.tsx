@@ -14,6 +14,7 @@ import Tags from "./Tags";
 import firstRankCrown from "../images/firstRankCrown.svg";
 import secondRankCrown from "../images/secondRankCrown.svg";
 import SpotlightCard from "./SpotlightCard";
+import { CSSTransition } from "react-transition-group";
 
 interface UserProfileProps {
   username: string;
@@ -279,7 +280,12 @@ const UserProfile: React.FC<UserProfileProps> = ({
       </div>
 
       {/* Edit Profile Modal */}
-      {showEditProfile && (
+      <CSSTransition
+        in={showEditProfile}
+        timeout={300}
+        classNames="modal"
+        unmountOnExit
+      >
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-customGray rounded-xl p-8 w-full max-w-2xl shadow-lg flex flex-col md:flex-row gap-6 relative">
             {/* Close Button */}
@@ -359,7 +365,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <form className="p-4 border rounded-lg border-midGray">
+                  <form className="p-4 border rounded-lg border-midGray space-y-3">
                     <div className="mb-4">
                       <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
                         Username
@@ -370,6 +376,30 @@ const UserProfile: React.FC<UserProfileProps> = ({
                         className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
                         placeholder="Username"
                       />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs text-gray-300 mb-2">
+                          First Name
+                        </label>
+                        <input
+                          type="text"
+                          defaultValue={"domain"}
+                          className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
+                          placeholder="First Name"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-300 mb-2">
+                          Last Name
+                        </label>
+                        <input
+                          type="text"
+                          defaultValue={"domain"}
+                          className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
+                          placeholder="Last Name"
+                        />
+                      </div>
                     </div>
                     <div className="mb-4">
                       <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
@@ -382,6 +412,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                         placeholder="Domain"
                       />
                     </div>
+
                     <div className="mb-4">
                       <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
                         Batch
@@ -403,12 +434,6 @@ const UserProfile: React.FC<UserProfileProps> = ({
                         placeholder="Add your bio here"
                       />
                     </div>
-                    <button
-                      type="submit"
-                      className="w-1/2 bg-gray-200 text-sm text-customBg font-semibold p-2 rounded-lg transition-all"
-                    >
-                      Save
-                    </button>
                   </form>
                 </div>
 
@@ -479,19 +504,30 @@ const UserProfile: React.FC<UserProfileProps> = ({
                         placeholder="LeetCode Username"
                       />
                     </div>
-                    <button
-                      type="submit"
-                      className="w-1/2 bg-gray-200 text-sm text-customBg font-semibold p-2 rounded-lg transition-all"
-                    >
-                      Save
-                    </button>
                   </form>
                 </div>
+              </div>
+
+              {/* Common Buttons */}
+              <div className="flex gap-4 mt-6">
+                <button
+                  type="button"
+                  onClick={handleCloseEditProfile}
+                  className="px-6 py-2 text-sm font-semibold text-gray-300 border border-midGray rounded-lg hover:bg-midGray transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 text-sm font-semibold bg-gray-200 text-customBg rounded-lg hover:bg-gray-300 transition-all"
+                >
+                  Save Changes
+                </button>
               </div>
             </div>
           </div>
         </div>
-      )}
+      </CSSTransition>
     </div>
   );
 };

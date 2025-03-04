@@ -13,6 +13,7 @@ import UploadPostForm1 from "../forms/UploadPostForm1";
 import UploadPostForm2 from "../forms/UploadPostForm2";
 import UploadPostForm3 from "../forms/UploadPostForm3";
 import SearchCard from "./SearchCard";
+import UploadPostStepper from "./UploadPostStepper";
 
 interface NavBarProps {
   onSearch: (query: string) => void;
@@ -23,63 +24,17 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = ({ onSearch, searchResults, isLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
   const [showModal, setShowModal] = useState(false); // For fade-in/out effect
-  const [croppedImages, setCroppedImages] = useState<string[]>([]);
-
-  const [currentStep, setCurrentStep] = useState(1); // Step state: 1 for Form1, 2 for Form2
-  const [images, setImages] = useState<File[]>([]); // Shared images between forms
   const modalRef = useRef<HTMLDivElement | null>(null);
-
-  //search card
   const [isFocused, setIsFocused] = useState(false);
 
   const handleOpenModal = () => {
-    setIsModalOpen(true); // Show modal
-    setTimeout(() => setShowModal(true), 10); // Trigger fade-in
+    setIsModalOpen(true);
+    setTimeout(() => setShowModal(true), 10);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false); // Trigger fade-out
-    setTimeout(() => setIsModalOpen(false), 300); // Delay removal to match animation duration
-  };
-
-  // const handleClickOutside = (event: MouseEvent) => {
-  //    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-  //      handleCloseModal();
-  //    }
-  //  };
-
-  //  useEffect(() => {
-  //    if (isModalOpen) {
-  //      document.addEventListener("mousedown", handleClickOutside);
-  //    }
-  //    return () => {
-  //      document.removeEventListener("mousedown", handleClickOutside);
-  //    };
-  //  }, [isModalOpen]);
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      setImages((prevImages) => [...prevImages, ...filesArray]);
-    }
-  };
-
-  const handleImageRemove = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
-
-  const handleNext = () => {
-    if (currentStep === 1) setCurrentStep(2);
-  };
-
-  const handleBack = () => {
-    if (currentStep === 2) setCurrentStep(1);
-    if (currentStep === 3) setCurrentStep(2);
-  };
-
-  const handleNextStep = (croppedImages: string[]) => {
-    setCroppedImages(croppedImages); // Set cropped images state
-    setCurrentStep(3); // Move to the next form
+    setShowModal(false);
+    setTimeout(() => setIsModalOpen(false), 300);
   };
 
   return (
@@ -161,38 +116,21 @@ const NavBar: React.FC<NavBarProps> = ({ onSearch, searchResults, isLoading }) =
         >
           <div
             ref={modalRef}
-            className={`relative p-6 rounded-lg shadow-lg transform transition-transform duration-300 ${
+            className={`w-full max-w-xl ${
               showModal ? "scale-100" : "scale-95"
-            }`}
+            } `}
           >
-            {currentStep === 1 ? (
-              <UploadPostForm1
-                images={images}
-                handleImageUpload={handleImageUpload}
-                handleImageRemove={handleImageRemove}
-                onNext={handleNext}
-              />
-            ) : currentStep === 2 ? (
-              <UploadPostForm2
-                images={images.map((file) => URL.createObjectURL(file))}
-                handleBack={handleBack}
-                onNext={handleNextStep} // Pass the onNext handler for the next step
-              />
-            ) : (
-              <UploadPostForm3
-                handleBack={handleBack}
-                images={croppedImages} // Pass cropped images to the final form
-              />
-            )}
-            <button
+            {/* <button
               onClick={handleCloseModal}
-              className="absolute text-sm  top-12 left-14 text-gray-500 hover:text-gray-800"
+              className="absolute top-0 right-20 text-gray-400 hover:text-white transition-colors"
             >
-              Close
-            </button>
+              ×
+            </button> */}
+            <UploadPostStepper onComplete={handleCloseModal} />
           </div>
         </div>
       )}
+
     </>
   );
 };

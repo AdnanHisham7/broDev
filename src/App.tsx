@@ -28,7 +28,7 @@ import UserProfileCard from "./components/ui/UserProfileCard";
 import OwnPost from "./components/ui/OwnPost";
 import ProfilePage from "./components/pages/ProfilePage";
 import CommentsPad from "./components/ui/CommentsPad";
-import { commentsData } from "./data";
+// import { commentsData } from "./data";
 import Layout from "./components/pages/Layout";
 import Dashboard from "./components/pages/Users";
 import UnderConstruction from "./components/pages/UnderConstruction";
@@ -245,7 +245,7 @@ function App() {
             <>
               <div className="min-h-screen bg-customBg p-4">
                 <h1 className="text-2xl font-bold mb-6">Comments </h1>
-                <CommentsPad comments={commentsData} />
+                {/* <CommentsPad comments={commentsData} /> */}
               </div>
             </>
           }
@@ -290,7 +290,7 @@ function App() {
         />
 
         {/* <Route path="/uploadPostForm" element={<UploadPostForm></UploadPostForm>} /> */}
-        <Route
+        {/* <Route
           path="/forgotPassword"
           element={
             <>
@@ -312,13 +312,14 @@ function App() {
                   // "https://wallpapercave.com/wp/wp2890892.jpg",
                   // "https://wallpaperaccess.com/full/3304781.jpg"
                 ]}
+                
                 likes={100}
                 comments={2100}
                 description="🚀 Explore the latest in technology, innovation, and trends shapin the future. From groundbreaking advancements to practical applications, our insights keep you informed Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed"
               />
             </>
           }
-        />
+        /> */}
 
         <Route
           path="/ownPost"

@@ -14,15 +14,18 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@radix-ui/react-switch": "^1.1.2",
+    "@react-spring/web": "^9.7.5",
     "cropperjs": "^1.6.2",
     "framer-motion": "^12.4.2",
     "headlessui": "^0.0.0",
     "react": "^18.2.0",
     "react-cropper": "^2.3.3",
     "react-dom": "^18.2.0",
+    "react-image-crop": "^11.0.7",
     "react-router-dom": "^7.1.1",
     "react-swipeable": "^7.0.2",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "sonner": "^2.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

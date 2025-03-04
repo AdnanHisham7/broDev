@@ -37,10 +37,6 @@ const Button: React.FC<ButtonProps> = ({
     'outlined-success': 'border border-customGreen text-customGreen hover:bg-customGreen hover:text-white',
     'outlined-danger': 'border border-customRed text-customRed hover:bg-customRed hover:text-white',
   };
-  
-  
-
- 
 
   // Combine styles
   const combinedStyles = `${baseStyle} ${variantStyles[variant]} ${

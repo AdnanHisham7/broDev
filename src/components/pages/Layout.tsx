@@ -47,12 +47,12 @@ const Layout: React.FC = () => {
 
         {/* Sidebar and Main Content Layout */}
         <div className="flex">
-          <aside className="w-64 sticky top-0 h-screen">
+          <aside className="w-64 sticky top-0 h-full">
             <SideBar />
           </aside>
 
           {/* Dynamic Page Content */}
-          <main className="flex-1 py-8 ps-12 overflow-y-auto hide-scrollbar h-[calc(100vh-4rem)]">
+          <main className="flex-1 pt-8 ps-12 pr-2">
             <Outlet />
           </main>
         </div>

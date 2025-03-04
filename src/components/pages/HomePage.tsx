@@ -1,13 +1,114 @@
 import React, { useEffect, useState } from "react";
 import Button from "../ui/Button";
 import Post from "../ui/Post";
-import { users, manageUsers } from "../../data";
+import { Toaster } from "sonner";
+import { users, manageUsers, HomePagePostsData } from "../../data";
+import CommentsPad, { Comment } from "../ui/CommentsPad";
+// import { commentsData } from "../../data";
+import AnimatedContent from "../ui/AnimatedContent";
 
 const HomePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Posts");
+  const [visiblePosts, setVisiblePosts] = useState(10);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  const [showCommentsPad, setShowCommentsPad] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+
+  const [posts, setPosts] = useState(
+    HomePagePostsData.map((post) => ({ ...post }))
+  );
+
+  const [postComments, setPostComments] = useState<{
+    [postId: number]: Comment[];
+  }>({});
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
+  };
+
+  // sample current user, should rplace with redux user
+  const currentUser = {
+    username: "dsds",
+    profileImage:
+      "https://media.licdn.com/dms/image/v2/D5603AQF2M10x7txapA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1719020690261?e=2147483647&v=beta&t=GqWl-2UFahRc_tV1f5wzBJE2qlBvr27_j5stMCVwWik",
+  };
+
+  // Initialize comments when a post is selected
+  useEffect(() => {
+    if (selectedPostId !== null && !postComments[selectedPostId]) {
+      const initialComments =
+        HomePagePostsData[selectedPostId]?.commentsData || [];
+      setPostComments((prev) => ({
+        ...prev,
+        [selectedPostId]: initialComments,
+      }));
+    }
+  }, [selectedPostId]);
+
+  // Helper function to recursively add nested comments
+  const addNestedComment = (
+    comments: Comment[],
+    parentId: number,
+    newComment: Comment
+  ): Comment[] => {
+    return comments.map((comment) => {
+      if (comment.id === parentId) {
+        return {
+          ...comment,
+          nestedComments: [newComment, ...comment.nestedComments],
+          nestedCommentsCount: comment.nestedCommentsCount + 1,
+        };
+      } else if (comment.nestedComments.length > 0) {
+        return {
+          ...comment,
+          nestedComments: addNestedComment(
+            comment.nestedComments,
+            parentId,
+            newComment
+          ),
+        };
+      }
+      return comment;
+    });
+  };
+
+  // Handle adding new comments
+  const handleAddComment = (
+    postId: number,
+    newCommentText: string,
+    parentCommentId?: number
+  ) => {
+    const post = HomePagePostsData[postId];
+    const isOwner = post.username === currentUser.username;
+
+    const newComment: Comment = {
+      id: Date.now(),
+      username: currentUser.username,
+      userProfile: currentUser.profileImage,
+      comment: newCommentText,
+      likesCount: 0,
+      isLiked: false,
+      isOwner: isOwner,
+      nestedCommentsCount: 0,
+      nestedComments: [],
+    };
+
+    if (parentCommentId) {
+      setPostComments((prev) => ({
+        ...prev,
+        [postId]: addNestedComment(
+          prev[postId] || [],
+          parentCommentId,
+          newComment
+        ),
+      }));
+    } else {
+      setPostComments((prev) => ({
+        ...prev,
+        [postId]: [newComment, ...(prev[postId] || [])],
+      }));
+    }
   };
 
   //search cards
@@ -38,6 +139,48 @@ const HomePage: React.FC = () => {
     }
   }, [searchQuery]);
 
+  // Infinite scroll handler
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+          document.documentElement.offsetHeight - 500 &&
+        activeTab === "Posts" &&
+        !isScrolling &&
+        visiblePosts < HomePagePostsData.length
+      ) {
+        setIsScrolling(true);
+        setVisiblePosts((prev) =>
+          Math.min(prev + 10, HomePagePostsData.length)
+        );
+        setTimeout(() => setIsScrolling(false), 500);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [visiblePosts, isScrolling, activeTab]);
+
+  // Reset visible posts when tab changes
+  useEffect(() => {
+    setVisiblePosts(10);
+  }, [activeTab]);
+
+  const handleLike = (postId: number, newIsLiked: boolean) => {
+    console.log("hi there", postId, newIsLiked, posts);
+    setPosts(
+      posts.map((post) => 
+        post.id == postId
+        ? {
+          ...post,
+          isLiked: newIsLiked,
+          likes: newIsLiked ? post.likes + 1 : post.likes - 1,
+        }
+        : post
+      )
+    );
+  };
+
   return (
     <>
       {/* Tabs for switching between "Posts", "Placements", "Events" */}
@@ -59,70 +202,79 @@ const HomePage: React.FC = () => {
         />
       </div>
 
-      {/* Content based on active tab */}
-      <div className="flex flex-col gap-10">
-        {activeTab === "Posts" && (
-          <>
-            <Post
-              username="user_name"
-              domain="Mern Stack Developer"
-              tags={{
-                tagExample: "7F0303",
-                hry: "160",
-              }}
-              images={[
-                "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
-                "https://th.bing.com/th/id/R.2c57158421e70052a5cd37e63505472a?rik=rZ1a9SDg8etiJQ&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-20.jpg&ehk=efYckqX6isJQS4qYHcoS%2bSi9PByYf0bj3Xg9h%2fwwTyc%3d&risl=&pid=ImgRaw&r=0",
-                "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
-              ]}
-              likes={100}
-              comments={2100}
-              description="🚀 Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed"
-            />
-            <Post
-              username="user_name"
-              domain="Mern Stack Developer"
-              tags={{
-                tagExample: "7F0303",
-                Linkedln: "16037F",
-              }}
-              images={[
-                "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
-                "https://th.bing.com/th/id/R.2c57158421e70052a5cd37e63505472a?rik=rZ1a9SDg8etiJQ&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-20.jpg&ehk=efYckqX6isJQS4qYHcoS%2bSi9PByYf0bj3Xg9h%2fwwTyc%3d&risl=&pid=ImgRaw&r=0",
-                "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
-              ]}
-              likes={100}
-              comments={2100}
-              description="🚀 Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed"
-            />
-            <Post
-              username="user_name"
-              domain="Mern Stack Developer"
-              tags={{
-                tagExample: "7F0303",
-                "Linkedln Contest winner": "16037F",
-              }}
-              images={[
-                "https://th.bing.com/th/id/R.5969dd2ca999fb68dfe6d292cafc1c84?rik=TCyiF%2f3rRqo0Nw&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-40.jpg&ehk=CMy18Uy0M72454Y8iWPLx3sH%2fL%2bd9vD4Ne4RSWxtHzI%3d&risl=&pid=ImgRaw&r=0",
-                "https://th.bing.com/th/id/R.2c57158421e70052a5cd37e63505472a?rik=rZ1a9SDg8etiJQ&riu=http%3a%2f%2fwonderfulengineering.com%2fwp-content%2fuploads%2f2014%2f07%2fLandscape-wallpapers-20.jpg&ehk=efYckqX6isJQS4qYHcoS%2bSi9PByYf0bj3Xg9h%2fwwTyc%3d&risl=&pid=ImgRaw&r=0",
-                "https://wonderfulengineering.com/wp-content/uploads/2014/07/Landscape-wallpapers-34.jpg",
-              ]}
-              likes={100}
-              comments={2100}
-              description="🚀 Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed Explore the latest in technology, innovation, and trends shaping the future. From groundbreaking advancements to practical applications, our insights keep you informed"
-            />
-          </>
-        )}
-        {activeTab === "Placements" && <p>Placements content goes here.</p>}
-        {activeTab === "Events" && <p>Events content goes here.</p>}
-      </div>
+      <Toaster richColors position="bottom-right"></Toaster>
 
-      
+      {/* Content based on active tab */}
+      {/* Main Container */}
+      <div className="relative flex gap-4">
+        {/* Left Side: Main Content */}
+        <div className="flex-1">
+          <div className="flex flex-col gap-10">
+            {activeTab === "Posts" &&
+              posts.slice(0, visiblePosts).map((post) => (
+                <Post
+                  key={post.id}
+                  id={post.id}
+                  onClickComment={(postId) => {
+                    setSelectedPostId(postId);
+                    setShowCommentsPad(true);
+                  }}
+                  onClickLike={handleLike}
+                  username={post.username}
+                  domain={post.domain}
+                  tags={post.tags}
+                  images={post.images}
+                  likes={post.likes}
+                  comments={post.comments}
+                  description={post.description}
+                  isLiked={post.isLiked}
+                />
+              ))}
+            {activeTab === "Placements" && <p>Placements content goes here.</p>}
+            {activeTab === "Events" && <p>Events content goes here.</p>}
+          </div>
+        </div>
+
+        {/* Right Side: Sticky Comments Sidebar */}
+        {/* {showCommentsPad && (
+          <div className="hidden lg:flex flex-col w-80 shadow-lg h-[80vh] sticky top-20">
+            <CommentsPad
+                comments={HomePagePostsData[selectedPostId!]?.commentsData || []}
+              onClose={() => setShowCommentsPad(false)}
+            />
+          </div>
+        )} */}
+
+        {/* For Small Screens: Bottom Drawer */}
+        {showCommentsPad && ( //lg-hidden
+          // <div className="fixed bottom-0 left-0 w-full max-h-[85vh] z-20 overflow-hidden">
+          <div className="fixed bottom-0 left-0 w-full z-20">
+            <AnimatedContent
+              distance={150}
+              direction="vertical"
+              reverse={false}
+              config={{ tension: 80, friction: 15 }}
+              initialOpacity={0.9}
+              animateOpacity
+              scale={1}
+              threshold={0.1}
+            >
+              <CommentsPad
+                comments={postComments[selectedPostId!] || []}
+                onClose={() => setShowCommentsPad(false)}
+                onAddComment={(newCommentText, parentCommentId) =>
+                  handleAddComment(
+                    selectedPostId!,
+                    newCommentText,
+                    parentCommentId
+                  )
+                }
+              />
+            </AnimatedContent>
+          </div>
+        )}
+      </div>
     </>
-    //       </main>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

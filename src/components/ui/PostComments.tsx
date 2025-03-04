@@ -81,6 +81,7 @@ const NestedComments: React.FC<{ comments: Comment[] }> = ({ comments }) => {
   );
 };
 
+
 const CommentItem: React.FC<CommentProps> = ({ comment }) => (
   <div className="px-4 py-3 bg-customGray">
     <div className="flex items-start">

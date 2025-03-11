@@ -5,6 +5,7 @@ import {
   faChevronUp,
   faEllipsisVertical,
   faEnvelope,
+  faTimes,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
@@ -15,6 +16,7 @@ import firstRankCrown from "../images/firstRankCrown.svg";
 import secondRankCrown from "../images/secondRankCrown.svg";
 import SpotlightCard from "./SpotlightCard";
 import { CSSTransition } from "react-transition-group";
+import FollowerListItem from "./FollowerListItem";
 
 interface UserProfileProps {
   username: string;
@@ -98,6 +100,126 @@ const UserProfile: React.FC<UserProfileProps> = ({
     setFollowing((prev) => !prev);
   };
 
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+
+  // Sample user data
+  const user = {
+    domain: "Computer Science",
+    batch: "2023",
+    bio: "Passionate about building scalable web applications and learning new technologies.",
+  };
+
+  const [isListModalOpen, setIsListModalOpen] = useState(false);
+  const [followers, setFollowers] = useState([
+    {
+      id: 1,
+      username: "user1",
+      domain: "domain1",
+      profileImage: "url1",
+      backgroundInfo: "info1",
+      isFollowing: false,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    {
+      id: 2,
+      username: "user2",
+      domain: "domain2",
+      profileImage: "url2",
+      backgroundInfo: "info2",
+      isFollowing: true,
+    },
+    // Add more followers as needed
+  ]);
+
+  const toggleFollow = (id: any) => {
+    setFollowers(
+      followers.map((follower) =>
+        follower.id === id
+          ? { ...follower, isFollowing: !follower.isFollowing }
+          : follower
+      )
+    );
+  };
+
   return (
     <div className="border-b border-gray-800 text-white pb-6 rounded-lg shadow-lg max-w-6xl mx-auto">
       {/* Top Section */}
@@ -145,11 +267,87 @@ const UserProfile: React.FC<UserProfileProps> = ({
                   <p className="text-sm text-gray-300">
                     <span className="font-semibold">{postCount}</span> Posts
                   </p>
-                  <p className="text-sm text-gray-300">
+                  <p
+                    className="text-sm text-gray-300 cursor-pointer"
+                    onClick={() => setIsListModalOpen(true)}
+                  >
                     <span className="font-semibold">{followersCount}</span>{" "}
                     Followers
                   </p>
                 </div>
+
+                {/* Followers/Following List Modal */}
+                <CSSTransition
+                  in={isListModalOpen}
+                  timeout={300}
+                  classNames="modal"
+                  unmountOnExit
+                >
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+                    <div className="bg-customGray p-4 rounded-lg w-96 max-h-[90vh] overflow-y-auto relative">
+                      {/* Close Icon */}
+                      <div
+                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-200 cursor-pointer transition-colors duration-200"
+                        onClick={() => setIsListModalOpen(false)}
+                      >
+                        <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
+                      </div>
+
+                      {/* Modal Content */}
+                      <h2 className="text-lg font-semibold text-gray-200 mb-4">
+                        Followers
+                      </h2>
+                      <div className="space-y-2 max-h-80 overflow-y-auto hide-scrollbar">
+                        {followers.map((follower) => (
+                          <FollowerListItem
+                            key={follower.id}
+                            follower={follower}
+                            toggleFollow={toggleFollow}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </CSSTransition>
+
+                {/* About Modal with CSSTransition */}
+                <CSSTransition
+                  in={isAboutModalOpen}
+                  timeout={300}
+                  classNames="modal"
+                  unmountOnExit
+                >
+                  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+                    <div className="bg-customGray p-6 rounded-lg w-96 max-w-[90%] relative">
+                      {/* Close Icon */}
+                      <div
+                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-200 cursor-pointer transition-colors duration-200"
+                        onClick={() => setIsAboutModalOpen(false)}
+                      >
+                        <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
+                      </div>
+
+                      {/* Modal Content */}
+                      <h2 className="text-xl font-semibold text-gray-200 mb-4">
+                        About
+                      </h2>
+                      <div className="space-y-4 text-gray-300">
+                        <div>
+                          <p className="text-sm font-semibold">Domain</p>
+                          <p className="text-sm">{user.domain}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold">Batch</p>
+                          <p className="text-sm">{user.batch}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold">Bio</p>
+                          <p className="text-sm">{user.bio}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CSSTransition>
 
                 {/* Follow Button (Now below post/followers row) */}
                 <div className="mt-3">
@@ -189,7 +387,8 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md">
                       Logout
                     </button>
-                    <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md">
+                    <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md" 
+                    onClick={()=> setIsAboutModalOpen(true)}>
                       About
                     </button>
                   </div>

@@ -6,6 +6,7 @@ import { users, manageUsers, HomePagePostsData } from "../../data";
 import CommentsPad, { Comment } from "../ui/CommentsPad";
 // import { commentsData } from "../../data";
 import AnimatedContent from "../ui/AnimatedContent";
+import PlacementCard from "../ui/PlacementCard";
 
 const HomePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Posts");
@@ -169,14 +170,14 @@ const HomePage: React.FC = () => {
   const handleLike = (postId: number, newIsLiked: boolean) => {
     console.log("hi there", postId, newIsLiked, posts);
     setPosts(
-      posts.map((post) => 
+      posts.map((post) =>
         post.id == postId
-        ? {
-          ...post,
-          isLiked: newIsLiked,
-          likes: newIsLiked ? post.likes + 1 : post.likes - 1,
-        }
-        : post
+          ? {
+              ...post,
+              isLiked: newIsLiked,
+              likes: newIsLiked ? post.likes + 1 : post.likes - 1,
+            }
+          : post
       )
     );
   };
@@ -235,15 +236,27 @@ const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Side: Sticky Comments Sidebar */}
-        {/* {showCommentsPad && (
-          <div className="hidden lg:flex flex-col w-80 shadow-lg h-[80vh] sticky top-20">
-            <CommentsPad
-                comments={HomePagePostsData[selectedPostId!]?.commentsData || []}
-              onClose={() => setShowCommentsPad(false)}
-            />
-          </div>
-        )} */}
+        {/* Right Side: Sticky Placement Card */}
+        <div className="hidden lg:flex flex-col w-64 shadow-lg h-[80vh] top-20 ">
+          <PlacementCard
+            technologies={[
+              { name: "MerStack", count: 200, percentage: 20 },
+              { name: "Flutter", count: 250, percentage: 60 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+              { name: "Python", count: 200, percentage: 20 },
+            ]}
+            totalPlacements={1918}
+            onShowMore={() => {}}
+          ></PlacementCard>
+        </div>
 
         {/* For Small Screens: Bottom Drawer */}
         {showCommentsPad && ( //lg-hidden

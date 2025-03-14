@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import NavBar from "../ui/NavBar";
 import SideBar from "../ui/SideBar";
 import UserProfile from "../ui/UserProfileCard";
@@ -24,76 +24,110 @@ const ProfilePage: React.FC = () => {
   }
 
   const ownPosts = postsData.filter((post) => post.username === username);
+  // const savedPosts = postsData.filter((post) => post.isSaved); // Example logic
+  const savedPosts = [];
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("Posts");
 
-  //search cards
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [filteredUsers, setFilteredUsers] = useState<
-    {
-      username: string;
-      profileImage: string;
-      domain: string;
-      following: boolean;
-    }[]
-  >([]);
-  useEffect(() => {
-    if (searchQuery) {
-      setIsLoading(true);
-      // Simulate a delay for loading
-      const timer = setTimeout(() => {
-        const filtered = users.filter((user) =>
-          user.username.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-        setFilteredUsers(filtered);
-        setIsLoading(false);
-      }, 500); // 500ms delay
-      return () => clearTimeout(timer);
-    } else {
-      setFilteredUsers([]);
-    }
-  }, [searchQuery]);
+  // Simulate loading delay
+  useLayoutEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, [activeTab]);
+
+  // Skeleton Loader Component
+  const PostSkeleton = () => (
+    <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden animate-pulse">
+      <div className="w-full h-48 bg-gray-700" />
+      <div className="p-4">
+        <div className="h-4 bg-gray-700 rounded w-3/4 mb-2" />
+        <div className="h-4 bg-gray-700 rounded w-1/2" />
+      </div>
+    </div>
+  );
 
   return (
-    // <div className="min-h-screen">
-    //   {/* Container to center content and add padding */}
-    //   <div className="max-w-7xl mx-auto px-4">
-    //     {/* NavBar (Sticky at the Top) */}
-    //     <header className="sticky top-0 bg-customBg">
-    //     <NavBar
-    //         onSearch={setSearchQuery}
-    //         searchResults={filteredUsers}
-    //         isLoading={isLoading}
-    //       />
-    //     </header>
+    <>
+      {/* User Profile Section */}
+      <div className="flex flex-col items-center gap-10 py-6">
+        <UserProfile {...userProfileData} />
+      </div>
 
-    //     {/* Flex container for sidebar and main content */}
-    //     <div className="flex">
-    //       {/* Sidebar remains sticky */}
-    //       <aside className="w-64 sticky top-0 h-screen">
-    //         <SideBar />
-    //       </aside>
+      {/* Tabs and Content */}
+      <div className="max-w-6xl mx-auto w-full">
+        {/* Tabs remain same */}
+        <div className="flex border-b border-gray-800">
+          <button
+            className={`px-4 py-2 text-sm font-medium ${
+              activeTab === "Posts"
+                ? "border-b-2 border-blue-500 text-blue-500"
+                : "text-gray-500 hover:text-blue-500"
+            }`}
+            onClick={() => setActiveTab("Posts")}
+          >
+            Posts
+          </button>
+          <button
+            className={`px-4 py-2 text-sm font-medium ${
+              activeTab === "Saved"
+                ? "border-b-2 border-blue-500 text-blue-500"
+                : "text-gray-500 hover:text-blue-500"
+            }`}
+            onClick={() => setActiveTab("Saved")}
+          >
+            Saved
+          </button>
+        </div>
 
-    //       {/* Main Content */}
-    //       <main className="flex-1 p-6 overflow-y-auto hide-scrollbar h-[calc(100vh-4rem)]">
-              <>
-                {/* User Profile Section */}
-                <div className="flex flex-col items-center gap-10 py-6">
-                  <UserProfile {...userProfileData} />
-                </div>
-
-                {/* User Posts Section */}
-                <div className="max-w-6xl mx-auto w-full">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {ownPosts.map((post, index) => (
+        {/* Content Area */}
+        <div className="mt-6">
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {Array(4)
+                .fill(0)
+                .map((_, idx) => (
+                  <PostSkeleton key={idx} />
+                ))}
+            </div>
+          ) : (
+            <>
+              {/* Posts Tab */}
+              {activeTab === "Posts" && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {ownPosts.length === 0 ? (
+                    <div className="col-span-full text-center py-12">
+                      <div className="text-gray-400 text-lg">No posts yet</div>
+                    </div>
+                  ) : (
+                    ownPosts.map((post, index) => (
                       <OwnPost key={index} {...post} />
-                    ))}
-                  </div>
+                    ))
+                  )}
                 </div>
-              </>
-    //       </main>
-    //     </div>
-    //   </div>
-    // </div>
+              )}
+
+              {/* Saved Tab */}
+              {activeTab === "Saved" && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {savedPosts.length === 0 ? (
+                    <div className="col-span-full text-center py-12">
+                      <div className="text-gray-400 text-lg">
+                        No saved posts yet
+                      </div>
+                    </div>
+                  ) : (
+                    ownPosts.map((post, index) => (
+                      <OwnPost key={index} {...post} />
+                    ))
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 

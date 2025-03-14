@@ -88,6 +88,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   };
 
   const handleCloseEditProfile = () => {
+    console.log("modal is closingggggggggggggggggggggggggggggggggg.........");
     setIsClosing(true);
     setTimeout(() => {
       setShowEditProfile(false);
@@ -220,8 +221,42 @@ const UserProfile: React.FC<UserProfileProps> = ({
     );
   };
 
+  // skills section
+  const [skills, setSkills] = useState<string[]>([]);
+  const [skillInput, setSkillInput] = useState("");
+  const [duplicateSkillError, setDuplicateSkillError] = useState(false);
+
+  const handleSkillsChange = (newSkills: string[]) => {
+    setSkills(newSkills);
+  };
+
+  const handleSkillInputKeyPress = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      const trimmedSkill = skillInput.trim().replace(/,$/, "");
+
+      if (trimmedSkill) {
+        if (skills.includes(trimmedSkill)) {
+          setDuplicateSkillError(true);
+        } else {
+          handleSkillsChange([...skills, trimmedSkill]); // Update parent state with new skill
+          setDuplicateSkillError(false);
+        }
+        setSkillInput("");
+      }
+    }
+  };
+
+  const handleSkillRemove = (skill: string) => {
+    const updatedSkills = skills.filter((t) => t !== skill);
+    setSkills(updatedSkills); // Update the skills state
+    setDuplicateSkillError(false); // Reset duplicate skill error
+  };
+
   return (
-    <div className="border-b border-gray-800 text-white pb-6 rounded-lg shadow-lg max-w-6xl mx-auto">
+    <div className="text-white rounded-lg shadow-lg max-w-6xl mx-auto">
       {/* Top Section */}
       <div className="flex flex-col lg:flex-row gap-10">
         {/* Left Section (User Info, Profile, Bio) */}
@@ -387,10 +422,12 @@ const UserProfile: React.FC<UserProfileProps> = ({
                     <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md">
                       Logout
                     </button>
-                    <button className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md" 
-                    onClick={()=> setIsAboutModalOpen(true)}>
+                    <button
+                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 w-full text-left transition-all duration-200 rounded-md"
+                      onClick={() => setIsAboutModalOpen(true)}
+                    >
                       About
-                    </button>
+                    </button> 
                   </div>
                 </div>
               )}
@@ -541,7 +578,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
               </h2>
 
               {/* Profile Form */}
-              <div className="space-">
+              <div>
                 {/* Basic Information Accordion */}
                 <button
                   onClick={() => toggleSection("basicInfo")}
@@ -558,7 +595,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
                   />
                 </button>
                 <div
-                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  className={`transition-all duration-300 ease-in-out overflow-y-auto hide-scrollbar ${
                     activeSection === "basicInfo"
                       ? "max-h-[500px] opacity-100 py-3 px-3"
                       : "max-h-0 opacity-0"
@@ -632,6 +669,45 @@ const UserProfile: React.FC<UserProfileProps> = ({
                         className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white hide-scrollbar"
                         placeholder="Add your bio here"
                       />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-xs text-gray-700 dark:text-gray-300 mb-2">
+                        Skills
+                      </label>
+                      <div className="flex items-center flex-wrap gap-2 mb-2">
+                        {skills.map((skill, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center bg-midGray text-gray-300 rounded-full px-3 py-1 text-sm"
+                          >
+                            {skill}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSkillRemove(skill);
+                              }}
+                              className="ml-2 text-gray-500 hover:text-gray-300"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      <input
+                        type="text"
+                        value={skillInput}
+                        placeholder="Type and press Enter or Comma to add skills"
+                        onChange={(e) => setSkillInput(e.target.value)}
+                        onKeyDown={handleSkillInputKeyPress}
+                        className="w-full text-sm p-2 border border-midGray rounded-lg bg-lightGray text-white"
+                      />
+                      {duplicateSkillError && (
+                        <p className="mt-1 text-xs text-red-500">
+                          Duplicate skills are not allowed. Please try another
+                          skill.
+                        </p>
+                      )}
                     </div>
                   </form>
                 </div>

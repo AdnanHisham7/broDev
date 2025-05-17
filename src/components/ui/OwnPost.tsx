@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSwipeable } from "react-swipeable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEllipsisVertical,
@@ -10,32 +9,59 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import PostComments from "./PostComments";
+import EditPostModalDemo, { EditPostModal } from "./EditPostModal";
 
 interface PostProps {
   images: string[];
   likes: number;
   commentsCount: number;
-  comments?: any;
+  comments?: any[];
   description: string;
+  showLikeCount: boolean;
+  commentsEnabled: boolean;
+  tags: string[];
+  currentUserId?: string;
+  onLikePost?: () => void;
+  onAddComment?: (comment: string) => void;
+  onLikeComment?: (commentId: string) => void;
+  onUpdatePost?: (updatedPost: {
+    description: string;
+    showLikeCount: boolean;
+    commentsEnabled: boolean;
+    tags: string[];
+  }) => void;
 }
 
 const OwnPost: React.FC<PostProps> = ({
   images,
   likes,
   commentsCount,
-  comments,
+  comments = [],
   description,
+  showLikeCount,
+  commentsEnabled,
+  tags,
+  currentUserId,
+  onLikePost,
+  onAddComment,
+  onLikeComment,
+  onUpdatePost,
 }) => {
-  // const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [slideDirection, setSlideDirection] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
+  const [editForm, setEditForm] = useState({
+    description: "",
+    showLikeCount: false,
+    commentsEnabled: false,
+    tags: [],
+  });
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
@@ -45,8 +71,10 @@ const OwnPost: React.FC<PostProps> = ({
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  const truncatedDescription =
-    description.length > 150 ? description.slice(0, 150) + "..." : description;
+  const handleLikePost = () => {
+    setIsLiked(!isLiked);
+    if (onLikePost) onLikePost();
+  };
 
   const handleMenuToggle = () => {
     if (isMenuOpen) {
@@ -79,14 +107,30 @@ const OwnPost: React.FC<PostProps> = ({
     };
   }, [isMenuOpen]);
 
-  // Simulate loading delay for modal content
   useEffect(() => {
     if (isModalOpen) {
       setIsLoading(true);
-      const timer = setTimeout(() => setIsLoading(false), 500); // Simulate 1s loading
+      const timer = setTimeout(() => setIsLoading(false), 500);
       return () => clearTimeout(timer);
     }
   }, [isModalOpen]);
+
+  const truncatedDescription =
+    description.length > 150 ? description.slice(0, 150) + "..." : description;
+
+  const [postData, setPostData] = useState({
+    category: "Technology",
+    description: "Your post description",
+    tags: ["tag1", "tag2"],
+    hideLikes: false,
+    pinPost: false,
+  });
+
+  const handleSavePost = (updatedData:any) => { 
+    // Update your state or make API call with updatedData
+    console.log("Updated post data:", updatedData);
+    setIsEditModalOpen(false);
+  };
 
   return (
     <div
@@ -100,11 +144,10 @@ const OwnPost: React.FC<PostProps> = ({
           alt="Post"
           className="w-full h-full object-cover"
         />
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button className="flex items-center text-gray-200 gap-2 hover:text-white">
             <FontAwesomeIcon icon={faHeart} />
-            <span>{likes}</span>
+            {showLikeCount ? <span>{likes}</span> : null}
           </button>
           <button className="flex items-center text-gray-200 gap-2 hover:text-white">
             <FontAwesomeIcon icon={faComment} />
@@ -113,14 +156,13 @@ const OwnPost: React.FC<PostProps> = ({
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Post Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
           <div
-            className="bg-customGray text-white max-w-4xl w-full p-6 rounded-lg flex relative h-[90vh]"
+            className="bg-customGray text-white max-w-4xl w-full rounded-lg flex relative h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               className="absolute top-4 right-4 text-gray-300 hover:text-white"
               onClick={() => setIsModalOpen(false)}
@@ -128,15 +170,11 @@ const OwnPost: React.FC<PostProps> = ({
               <FontAwesomeIcon icon={faTimes} size="lg" />
             </button>
 
-            {/* Loading Skeleton */}
             {isLoading && (
               <>
-                {/* Left Side Skeleton */}
                 <div className="w-1/2 relative overflow-hidden h-full animate-pulse">
                   <div className="w-full h-full bg-gray-700 rounded-lg" />
                 </div>
-
-                {/* Right Side Skeleton */}
                 <div className="w-1/2 flex flex-col px-6 space-y-4">
                   <div className="h-4 bg-gray-700 rounded w-3/4" />
                   <div className="h-4 bg-gray-700 rounded w-1/2" />
@@ -156,12 +194,9 @@ const OwnPost: React.FC<PostProps> = ({
               </>
             )}
 
-            {/* Actual Modal Content */}
             {!isLoading && (
               <>
-                {/* Left: Image Slider */}
                 <div className="w-1/2 relative overflow-hidden h-full">
-                  {/* Move Menu Button Here */}
                   <button
                     className="absolute top-3 right-3 z-10 text-gray-400 hover:text-white bg-black bg-opacity-50 p-2 rounded-full"
                     onClick={handleMenuToggle}
@@ -169,18 +204,32 @@ const OwnPost: React.FC<PostProps> = ({
                     <FontAwesomeIcon icon={faEllipsisVertical} />
                   </button>
 
-                  {/* Menu Dropdown */}
                   {isMenuOpen && (
                     <div
                       ref={menuRef}
                       className="absolute right-3 z-20 top-12 w-40 text-sm bg-gray-700 text-gray-200 rounded-lg shadow-lg transition-opacity duration-200"
                     >
                       <ul>
-                        <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
+                        <li
+                          className="px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                          onClick={() => {
+                            setEditForm({
+                              description,
+                              showLikeCount,
+                              commentsEnabled,
+                              tags,
+                            });
+                            setIsModalOpen(false);
+                            setIsEditModalOpen(true);
+                          }}
+                        >
                           Edit Post
                         </li>
                         <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
                           Delete Post
+                        </li>
+                        <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
+                          Archive Post
                         </li>
                         <li className="px-4 py-2 hover:bg-gray-600 cursor-pointer">
                           Share
@@ -192,7 +241,6 @@ const OwnPost: React.FC<PostProps> = ({
                     </div>
                   )}
 
-                  {/* Image Container */}
                   <div
                     className="flex transition-transform duration-300 ease-in-out h-full"
                     style={{
@@ -210,15 +258,16 @@ const OwnPost: React.FC<PostProps> = ({
                     ))}
                   </div>
 
-                  {/* Likes & Comments Overlay */}
                   <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white text-sm px-3 py-2 rounded-lg flex space-x-4">
-                    <span className="flex items-center">
-                      <FontAwesomeIcon
-                        icon={faHeart}
-                        className="mr-1 text-red-500"
-                      />
-                      {likes}
-                    </span>
+                    <button
+                      className={`flex items-center ${
+                        isLiked ? "text-red-500" : "text-gray-200"
+                      }`}
+                      onClick={handleLikePost}
+                    >
+                      <FontAwesomeIcon icon={faHeart} className="mr-1" />
+                      {showLikeCount ? likes + (isLiked ? 1 : 0) : null}
+                    </button>
                     <span className="flex items-center">
                       <FontAwesomeIcon
                         icon={faComment}
@@ -228,7 +277,6 @@ const OwnPost: React.FC<PostProps> = ({
                     </span>
                   </div>
 
-                  {/* Navigation Buttons */}
                   {images.length > 1 && (
                     <>
                       <button
@@ -247,8 +295,7 @@ const OwnPost: React.FC<PostProps> = ({
                   )}
                 </div>
 
-                {/* Right: Post Details */}
-                <div className="w-1/2 flex flex-col px-6 overflow-y-auto">
+                <div className="w-1/2 flex flex-col px-6 overflow-y-auto py-8">
                   <p className="mb-4">
                     {isExpanded ? description : truncatedDescription}
                   </p>
@@ -264,13 +311,35 @@ const OwnPost: React.FC<PostProps> = ({
 
                   <hr className="border-t border-[#b4b4b4] opacity-30 my-2" />
 
-                  {/* Comments Section */}
-                  <PostComments comments={comments} />
+                  {commentsEnabled && (
+                    <PostComments
+                      comments={comments}
+                      onAddComment={
+                        onAddComment ||
+                        ((comment) => console.log("Add comment:", comment))
+                      }
+                      onLikeComment={
+                        onLikeComment ||
+                        ((commentId) => console.log("Like comment:", commentId))
+                      }
+                      currentUserId={currentUserId || "default-user-id"}
+                    />
+                  )}
                 </div>
               </>
             )}
           </div>
         </div>
+      )}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && (
+        <EditPostModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleSavePost}
+          initialData={postData}
+        />
       )}
     </div>
   );
